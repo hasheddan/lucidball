@@ -14,10 +14,9 @@ function line(props) {
     ctx.stroke();
 }
 
-function scaleY(max, min, val) {
-    var height = 330
+function scaleY(height, max, min, val) {
     var per = val / (max-min)
-    var spot = 330 * per
+    var spot = height * per
     return spot + 20
 }
 
@@ -32,6 +31,7 @@ export default class Plot extends React.Component {
     }
 
     componentDidMount() {
+        window.addEventListener("resize", this.updateCanvas)
         this.updateCanvas();
     }
     componentDidUpdate() {
@@ -59,20 +59,20 @@ export default class Plot extends React.Component {
         console.log("INTERVALS: " + (canvas.width))
         var interval = intervals + 40
         ctx.fillStyle="blue"
-        var pointY = scaleY(100, 0, 50)
         for (var i = 0; i < this.props.data.length-1; i++) {
-            line({ctx, startx: interval, starty: 20, endx: interval, endy: canvas.height-50});
-            // rect({ctx, x: interval-5, y: pointY-5, width: 50, height: 50})
+            line({ctx, startx: interval, starty: 20, endx: interval, endy: canvas.height-70});
+            var pointY = scaleY(canvas.height, 30, 0, this.props.data[i][24])
+            rect({ctx, x: interval-10, y: pointY-10, width: 20, height: 20})
             ctx.strokeStyle="rgba(192,192,192,0.7)";
             interval += intervals
         }
-        ctx.lineWidth=2;
+        ctx.lineWidth=4;
         ctx.strokeStyle="black";
         ctx.fillStyle="black"
-        line({ctx, startx: 40, starty: canvas.height-50, endx: canvas.width-20, endy: canvas.height-50});
-        line({ctx, startx: 40, starty: canvas.height-50, endx: 40, endy: 20});
-        ctx.font = '20px Allerta Stencil';
-        ctx.fillText(this.props.player + ' - '+ this.props.team, 40, canvas.height-20)
+        line({ctx, startx: 40, starty: canvas.height-70, endx: canvas.width-20, endy: canvas.height-70});
+        line({ctx, startx: 40, starty: canvas.height-70, endx: 40, endy: 20});
+        ctx.font = '30px Allerta Stencil';
+        ctx.fillText(this.props.player + ' - '+ this.props.team, 40, canvas.height-15)
     }
 
     render() {
