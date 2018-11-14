@@ -145,8 +145,8 @@ export default class Dash extends React.Component {
         console.log("HEY")
         axios.get('http://localhost:5000/'+teams[i].Code+'/roster')
             .then((result) =>{
-                console.log(result.data.resultSets[0].rowSet)
-                this.setState({ team: teams[i].Team, players: result.data.resultSets[0].rowSet })
+                console.log(result.data)
+                this.setState({ team: teams[i].Team, players: result.data })
             })
             .catch(error => console.log(error))
         // this.setState({team: teams[i]})
@@ -157,8 +157,8 @@ export default class Dash extends React.Component {
         console.log("WAZZUP")
         axios.get('http://localhost:5000/'+playerid+'/gamebygamestats')
             .then((result) =>{
-                console.log(result.data.resultSets[0].rowSet)
-                this.setState({ selectedPlayer: playername, stats: result.data.resultSets[0].rowSet })
+                console.log(result.data)
+                this.setState({ selectedPlayer: playername, stats: result.data })
             })
             .catch(error => console.log(error))
     }    

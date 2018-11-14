@@ -14,6 +14,13 @@ function line(props) {
     ctx.stroke();
 }
 
+function scaleY(max, min, val) {
+    var height = 330
+    var per = val / (max-min)
+    var spot = 330 * per
+    return spot + 20
+}
+
 export default class Plot extends React.Component {
     constructor(props) {
         super(props);
@@ -39,12 +46,17 @@ export default class Plot extends React.Component {
         ctx.lineCap="round";
         const intervals = 760 / this.props.data.length
         var interval = intervals + 40
+        ctx.fillStyle="blue"
+        var pointY = scaleY(100, 0, 50)
         for (var i = 0; i < this.props.data.length-1; i++) {
             line({ctx, startx: interval, starty: 20, endx: interval, endy: 350});
+            rect({ctx, x: interval-5, y: pointY-5, width: 10, height: 10})
+            ctx.strokeStyle="rgba(192,192,192,0.7)";
             interval += intervals
         }
         ctx.lineWidth=2;
         ctx.strokeStyle="black";
+        ctx.fillStyle="black"
         line({ctx, startx: 40, starty: 350, endx: 780, endy: 350});
         line({ctx, startx: 40, starty: 350, endx: 40, endy: 20});
         ctx.font = '20px Allerta Stencil';
