@@ -164,29 +164,25 @@ export default class Dash extends React.Component {
     }    
 
     render() {
-        const team = "Utah Jazz"
         return(
             <div className="container-fluid" style={{ height: "100vh"}}>
-                <div className="row" style={{backgroundColor: "#FFFAFA", height: "17%", zIndex: "9999", boxShadow: "1px 1px 1px 4px rgba(0, 0, 0, 0.8)", position: "relative"}}>
-                    {/* <button className="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{ height: "60%", marginTop: "3vh", marginLeft: "5vw"}}>
-                        {this.state.team}
-                    </button>
-                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={{overflow: "scroll"}}>
-                        {teams.map((team, i) => <a className="dropdown-item" onClick={() => this.changeTeam(i)} href="#" key={i}> {team}</a>)}
-                    </div> */}
+                <div className="row" style={{backgroundColor: "#FFFAFA", height: "12%", zIndex: "9999", boxShadow: "1px 1px 1px 4px rgba(0, 0, 0, 0.8)", position: "relative"}}>
                     <Drop callback={this.changeTeam} />
-                    <h1 style={{ position: "absolute", right: "10px", fontFamily: "Permanent Marker", color: "red"}}>LucidBall</h1>
                 </div>
-                <div className="row" style={{ zIndex: "999", height: "83%" }}>
-                    <div className="col-2" style={{padding: "0 0 0 0", height: "100%", overflow: "scroll", backgroundColor: "black"}}>
+                <div className="row" style={{ zIndex: "999", height: "82%" }}>
+                    <div className="col-2" style={{padding: "0 0 0 0", height: "99%", overflow: "scroll", borderRight: "3px solid black"}}>
                         <ul className="list-group">
                             <li className="list-group-item active" onClick={()=> this.changeTeam(1)}>Team</li>
                             {this.state.players.map((player, i) => <li className="list-group-item" onClick={()=>this.getPlayerStats(player[3], player[12])} key={i}>{player[3]}</li>)}
                         </ul>
                     </div>
-                    <div className="col-10" style={{height: "80vh", backgroundColor: "white"}}>
+                    <div className="col-10" style={{height: "97%", backgroundColor: "white"}}>
                         <Plot data={this.state.stats} player={this.state.selectedPlayer} team={this.state.team}/>
                     </div>
+                </div>
+                <div className="row" style={{ zIndex: "9999", height: "6%", backgroundColor: "#FFFAFA", boxShadow: "0px 0px 10px rgba(0 , 0 , 0, 0.8)" }}>
+                    <a className="btn btn-social-icon btn-twitter" href="https://twitter.com/share?ref_src=espn.com"><span className="fa fa-twitter"></span></a>
+                    <h3 style={{ position: "absolute", right: "10px", fontFamily: "Permanent Marker", color: "red"}}>LucidBall</h3>
                 </div>
             </div>
         );
