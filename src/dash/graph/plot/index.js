@@ -38,36 +38,48 @@ export default class Plot extends React.Component {
         this.updateCanvas();
     }
     updateCanvas() {
+        var dpi = window.devicePixelRatio;
+        const canvas = this.refs.canvas
         const ctx = this.refs.canvas.getContext('2d');
-        ctx.clearRect(0,0, 800, 400);
+        let style_height = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
+        //get CSS width
+        let style_width = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
+        //scale the canvas
+        canvas.setAttribute('height', style_height * dpi);
+        canvas.setAttribute('width', style_width * dpi);
+        console.log("Height: " + canvas.height)
+        console.log("Width: " + canvas.width)
+        ctx.translate(0.5,0.5)
+        ctx.clearRect(0,0, canvas.width, canvas.height);
         // draw children “components”
         ctx.lineWidth=2;
         ctx.strokeStyle="rgba(192,192,192,0.7)";
         ctx.lineCap="round";
-        const intervals = 760 / this.props.data.length
+        const intervals = (canvas.width-40) / this.props.data.length
+        console.log("INTERVALS: " + (canvas.width))
         var interval = intervals + 40
         ctx.fillStyle="blue"
         var pointY = scaleY(100, 0, 50)
         for (var i = 0; i < this.props.data.length-1; i++) {
-            line({ctx, startx: interval, starty: 20, endx: interval, endy: 350});
-            rect({ctx, x: interval-5, y: pointY-5, width: 10, height: 10})
+            line({ctx, startx: interval, starty: 20, endx: interval, endy: canvas.height-50});
+            // rect({ctx, x: interval-5, y: pointY-5, width: 50, height: 50})
             ctx.strokeStyle="rgba(192,192,192,0.7)";
             interval += intervals
         }
         ctx.lineWidth=2;
         ctx.strokeStyle="black";
         ctx.fillStyle="black"
-        line({ctx, startx: 40, starty: 350, endx: 780, endy: 350});
-        line({ctx, startx: 40, starty: 350, endx: 40, endy: 20});
+        line({ctx, startx: 40, starty: canvas.height-50, endx: canvas.width-20, endy: canvas.height-50});
+        line({ctx, startx: 40, starty: canvas.height-50, endx: 40, endy: 20});
         ctx.font = '20px Allerta Stencil';
-        ctx.fillText(this.props.player + ' - '+ this.props.team, 40, 380)
+        ctx.fillText(this.props.player + ' - '+ this.props.team, 40, canvas.height-20)
     }
 
     render() {
         return(
             <div style={{ height: "100%", width: "100%", position: "relative"}}>
                 <div style={{ height: "95%", width: "95%", borderRadius: "10px", backgroundColor: "#DCDCDC", top: "52%", left: "50%", transform: "translate(-50%, -50%)", position: "absolute", fontFamily: "Allerta Stencil"}}>
-                    <canvas ref="canvas" width={800} height={400} style={{height: "100%", width: "100%"}}/>
+                    <canvas ref="canvas" style={{height: "100%", width: "100%"}}/>
                 </div>
             </div>
         );
