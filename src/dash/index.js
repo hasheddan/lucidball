@@ -132,23 +132,36 @@ export default class Dash extends React.Component {
     constructor(props) {
         super(props);
         this.changeTeam = this.changeTeam.bind(this)
+        this.getPlayerStats = this.getPlayerStats.bind(this)
         this.state = {
             team: '',
-            players: []
+            players: [],
+            selectedPlayer: '',
+            stats: []
         }
     }
 
     changeTeam(i) {
         console.log("HEY")
-        axios.get('http://localhost:5000/players/'+teams[i].Code)
+        axios.get('http://localhost:5000/'+teams[i].Code+'/roster')
             .then((result) =>{
                 console.log(result.data.resultSets[0].rowSet)
-                this.setState({ team: teams[i], players: result.data.resultSets[0].rowSet })
+                this.setState({ team: teams[i].Team, players: result.data.resultSets[0].rowSet })
             })
             .catch(error => console.log(error))
         // this.setState({team: teams[i]})
         console.log("NOW HEY")
     }
+
+    getPlayerStats(playername, playerid) {
+        console.log("WAZZUP")
+        axios.get('http://localhost:5000/'+playerid+'/gamebygamestats')
+            .then((result) =>{
+                console.log(result.data.resultSets[0].rowSet)
+                this.setState({ selectedPlayer: playername, stats: result.data.resultSets[0].rowSet })
+            })
+            .catch(error => console.log(error))
+    }    
 
     render() {
         const team = "Utah Jazz"
@@ -168,11 +181,11 @@ export default class Dash extends React.Component {
                     <div className="col-2" style={{padding: "0 0 0 0", height: "100%", overflow: "scroll", backgroundColor: "black"}}>
                         <ul className="list-group">
                             <li className="list-group-item active" onClick={()=> this.changeTeam(1)}>Team</li>
-                            {this.state.players.map((player, i) => <li className="list-group-item" key={i}>{player[3]}</li>)}
+                            {this.state.players.map((player, i) => <li className="list-group-item" onClick={()=>this.getPlayerStats(player[3], player[12])} key={i}>{player[3]}</li>)}
                         </ul>
                     </div>
                     <div className="col-10" style={{height: "80vh", backgroundColor: "white"}}>
-                        <Plot />
+                        <Plot data={this.state.stats} player={this.state.selectedPlayer} team={this.state.team}/>
                     </div>
                 </div>
             </div>

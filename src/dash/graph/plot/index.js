@@ -17,8 +17,9 @@ function line(props) {
 export default class Plot extends React.Component {
     constructor(props) {
         super(props);
+        this.updateCanvas = this.updateCanvas.bind(this)
         this.state = {
-            player: 'Jimmy Butler',
+            player: '',
             number: ' '
         }
     }
@@ -36,9 +37,9 @@ export default class Plot extends React.Component {
         ctx.lineWidth=2;
         ctx.strokeStyle="rgba(192,192,192,0.7)";
         ctx.lineCap="round";
-        const intervals = 760 / 12
+        const intervals = 760 / this.props.data.length
         var interval = intervals + 40
-        for (var i = 0; i < 11; i++) {
+        for (var i = 0; i < this.props.data.length-1; i++) {
             line({ctx, startx: interval, starty: 20, endx: interval, endy: 350});
             interval += intervals
         }
@@ -47,7 +48,7 @@ export default class Plot extends React.Component {
         line({ctx, startx: 40, starty: 350, endx: 780, endy: 350});
         line({ctx, startx: 40, starty: 350, endx: 40, endy: 20});
         ctx.font = '20px Allerta Stencil';
-        ctx.fillText(this.state.player + ' - Minnesota Timberwolves - TS%', 40, 380)
+        ctx.fillText(this.props.player + ' - '+ this.props.team, 40, 380)
     }
 
     render() {
