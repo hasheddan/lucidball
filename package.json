@@ -3,12 +3,6 @@
   "version": "1.0.0",
   "description": "See the stats.",
   "main": "index.js",
-  "proxy": {
-    "/search": {
-      "target": "http://data.nba.net//prod/v1/2018/teams/1610612737/roster.json",
-      "changeOrigin": true
-    }
-  },
   "scripts": {
     "start": "webpack-dev-server --config ./webpack.config.js --mode development"
   },
