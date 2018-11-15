@@ -172,8 +172,8 @@ export default class Dash extends React.Component {
                 <div className="row" style={{ zIndex: "999", height: "82%" }}>
                     <div className="col-2" style={{padding: "0 0 0 0", height: "99%", overflow: "scroll", borderRight: "3px solid black"}}>
                         <ul className="list-group">
-                            <li className="list-group-item active" onClick={()=> this.changeTeam(1)}>Team</li>
-                            {this.state.players.map((player, i) => <li className="list-group-item" onClick={()=>this.getPlayerStats(player[3], player[12])} key={i}>{player[3]}</li>)}
+                            {/* <li className="list-group-item active" onClick={()=> this.changeTeam(1)}>Team</li> */}
+                            {this.state.players.map((player, i) => <li className={(player[3] == this.state.selectedPlayer) ? 'list-group-item active' : 'list-group-item'} onClick={(e)=>this.getPlayerStats(player[3], player[12], e)} key={i}>{player[3]}</li>)}
                         </ul>
                     </div>
                     <div className="col-10" style={{height: "97%", backgroundColor: "white"}}>
@@ -182,7 +182,7 @@ export default class Dash extends React.Component {
                 </div>
                 <div className="row" style={{ zIndex: "9999", height: "6%", backgroundColor: "#FFFAFA", boxShadow: "0px 0px 10px rgba(0 , 0 , 0, 0.8)" }}>
                     <a className="btn btn-social-icon btn-twitter" href="https://twitter.com/share?ref_src=espn.com"><span className="fa fa-twitter"></span></a>
-                    <h3 style={{ position: "absolute", right: "10px", fontFamily: "Permanent Marker", color: "red"}}>LucidBall</h3>
+                    <h3 href="https://twitter.com/lucidball" style={{ position: "absolute", right: "10px", fontFamily: "Permanent Marker", color: "red"}}>LucidBall</h3>
                 </div>
             </div>
         );

@@ -14,10 +14,10 @@ function line(props) {
     ctx.stroke();
 }
 
-function scaleY(height, max, min, val) {
+function plotY(height, max, min, val) {
     var per = val / (max-min)
     var spot = height * per
-    return spot + 20
+    return height - spot - 70
 }
 
 export default class Plot extends React.Component {
@@ -51,6 +51,12 @@ export default class Plot extends React.Component {
         console.log("Width: " + canvas.width)
         ctx.translate(0.5,0.5)
         ctx.clearRect(0,0, canvas.width, canvas.height);
+        var clientRect = canvas.getBoundingClientRect(), // abs. size of element
+            scaleX = canvas.width / clientRect.width,    // relationship bitmap vs. element for X
+            scaleY = canvas.height / clientRect.height; 
+        canvas.onmousemove = (e) => {
+            console.log("X: " + (e.clientX - clientRect.left)*scaleX+ ", Y: " + (e.clientY - clientRect.top)*scaleY)
+        }
         // draw children “components”
         ctx.lineWidth=2;
         ctx.strokeStyle="rgba(192,192,192,0.7)";
@@ -61,7 +67,8 @@ export default class Plot extends React.Component {
         ctx.fillStyle="blue"
         for (var i = 0; i < this.props.data.length-1; i++) {
             line({ctx, startx: interval, starty: 20, endx: interval, endy: canvas.height-70});
-            var pointY = scaleY(canvas.height, 30, 0, this.props.data[i][24])
+            var pointY = plotY(canvas.height, 30, 0, this.props.data[i][24])
+            console.log("Point: " + pointY + ", Points: " + this.props.data[i][24])
             rect({ctx, x: interval-10, y: pointY-10, width: 20, height: 20})
             ctx.strokeStyle="rgba(192,192,192,0.7)";
             interval += intervals

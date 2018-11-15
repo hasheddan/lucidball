@@ -9,9 +9,22 @@
     <link href="https://fonts.googleapis.com/css?family=Allerta+Stencil" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" media="screen" />
+    <style>
+      html, body {margin: 0; height: 100%; overflow: hidden}
+      #small {
+        display: none;
+      }
+      @media all and (max-width: 650px) {
+        #app { display: none; }
+        #small { display: block; }
+      }
+    </style>
   </head>
   <body>
     <div id="app"></div>
-    <script src="/bundle.js"></script>
+    <div id="small">
+      <p>Please view on larger screen for best experience.</p>
+    </div>
+    <script src="./bundle.js"></script>
   </body>
 </html>
