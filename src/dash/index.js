@@ -5,6 +5,8 @@ import axios from 'axios'
 import Plot from './graph/plot'
 import Drop from './drop'
 
+import './Dash.css'
+
 const teams = [
     {
       "Team": "Atlanta Hawks",
@@ -137,16 +139,18 @@ export default class Dash extends React.Component {
             team: '',
             players: [],
             selectedPlayer: '',
-            stats: []
+            stats: [],
+            loading: false
         }
     }
 
     changeTeam(i) {
         console.log("HEY")
+        this.setState({ loading: true })
         axios.get('http://localhost:5000/'+teams[i].Code+'/roster')
             .then((result) =>{
                 console.log(result.data)
-                this.setState({ team: teams[i].Team, players: result.data })
+                this.setState({ team: teams[i].Team, players: result.data, loading: false })
             })
             .catch(error => console.log(error))
         // this.setState({team: teams[i]})
@@ -164,6 +168,19 @@ export default class Dash extends React.Component {
     }    
 
     render() {
+        if (this.state.loading) {
+            console.log("LOADING")
+            var list = <div style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}><div className="lds-dual-ring"></div></div>
+            var plot = <div style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}><div className="lds-dual-ring"></div></div>
+        } else if (this.state.players.length == 0) {
+            var list = <div style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}><h1 style={{ writingMode: "vertical-rl"}}>Waiting for Selection</h1></div>
+        } else {
+            var list =
+            <ul className="list-group">
+                {this.state.players.map((player, i) => <li className={(player[3] == this.state.selectedPlayer) ? 'list-group-item active' : 'list-group-item'} onClick={(e)=>this.getPlayerStats(player[3], player[12], e)} key={i}>{player[3]}</li>)}
+            </ul>
+            var plot = <Plot data={this.state.stats} player={this.state.selectedPlayer} team={this.state.team}/>
+        }
         return(
             <div className="container-fluid" style={{ height: "100vh"}}>
                 <div className="row" style={{backgroundColor: "#FFFAFA", height: "12%", zIndex: "9999", boxShadow: "1px 1px 1px 4px rgba(0, 0, 0, 0.8)", position: "relative"}}>
@@ -171,17 +188,16 @@ export default class Dash extends React.Component {
                 </div>
                 <div className="row" style={{ zIndex: "999", height: "82%" }}>
                     <div className="col-2" style={{padding: "0 0 0 0", height: "99%", overflow: "scroll", borderRight: "3px solid black"}}>
-                        <ul className="list-group">
-                            {/* <li className="list-group-item active" onClick={()=> this.changeTeam(1)}>Team</li> */}
-                            {this.state.players.map((player, i) => <li className={(player[3] == this.state.selectedPlayer) ? 'list-group-item active' : 'list-group-item'} onClick={(e)=>this.getPlayerStats(player[3], player[12], e)} key={i}>{player[3]}</li>)}
-                        </ul>
+                        {list}
                     </div>
                     <div className="col-10" style={{height: "97%", backgroundColor: "white"}}>
-                        <Plot data={this.state.stats} player={this.state.selectedPlayer} team={this.state.team}/>
+                        {plot}
+                        
                     </div>
                 </div>
                 <div className="row" style={{ zIndex: "9999", height: "6%", backgroundColor: "#FFFAFA", boxShadow: "0px 0px 10px rgba(0 , 0 , 0, 0.8)" }}>
-                    <a className="btn btn-social-icon btn-twitter" href="https://twitter.com/share?ref_src=espn.com"><span className="fa fa-twitter"></span></a>
+                    <a className="btn" href="https://twitter.com/share?ref_src=espn.com"><i className="fab fa-twitter"></i></a>
+                    <a className="btn" href="https://twitter.com/share?ref_src=espn.com" style={{color: "black"}}><i className="fab fa-patreon"></i></a>
                     <h3 href="https://twitter.com/lucidball" style={{ position: "absolute", right: "10px", fontFamily: "Permanent Marker", color: "red"}}>LucidBall</h3>
                 </div>
             </div>

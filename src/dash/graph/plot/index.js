@@ -84,8 +84,8 @@ export default class Plot extends React.Component {
         ctx.fillStyle="black"
         line({ctx, startx: minX, starty: minY, endx: maxX, endy: minY});
         line({ctx, startx: minX, starty: minY, endx: minX, endy: maxY});
-        ctx.font = '30px Allerta Stencil';
-        ctx.fillText(this.props.player + ' - '+ this.props.team, 40, canvas.height-15)
+        ctx.font = '30px Inconsolata';
+        ctx.fillText(this.props.player + ' - '+ this.props.team, 40, canvas.height-25)
 
         // Track mouse
         canvas.onmousemove = (e) => {
@@ -100,9 +100,9 @@ export default class Plot extends React.Component {
                 for (i in inters) {
                     if (xPos > inters[i] - 10 && xPos < inters[i] + 10) {
                         console.log("~~~~~~~AH~~~~~~~")
-                        alert("DATA POINT!")
                     }
                 }
+                ctx.strokeStyle="red";
                 line({ctx, startx: xPos, starty: 20, endx: xPos, endy: canvas.height-70});
             }
         }

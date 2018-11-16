@@ -23,7 +23,7 @@ class App extends React.Component {
     render() {
         
         return(
-            <div>
+            <div style={{ fontFamily: "Inconsolata" }}>
                 {this.state.curPage == 'home' ? <Home pageChange={this.pageChange}/> : this.state.curPage == 'dash' ? <Dash pageChange={this.pageChange}/> : <Marathon pageChange={this.pageChange}/>}
             </div>
         );
