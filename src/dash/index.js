@@ -140,17 +140,18 @@ export default class Dash extends React.Component {
             players: [],
             selectedPlayer: '',
             stats: [],
-            loading: false
+            loading: false,
+            plotUpdating: false,
         }
     }
 
     changeTeam(i) {
         console.log("HEY")
-        this.setState({ loading: true })
+        this.setState({ loading: true, plotUpdating: true, selectedPlayer: '', stats: [] })
         axios.get('http://localhost:5000/'+teams[i].Code+'/roster')
             .then((result) =>{
                 console.log(result.data)
-                this.setState({ team: teams[i].Team, players: result.data, loading: false })
+                this.setState({ team: teams[i].Team, players: result.data, loading: false, plotUpdating: false })
             })
             .catch(error => console.log(error))
         // this.setState({team: teams[i]})
@@ -159,10 +160,11 @@ export default class Dash extends React.Component {
 
     getPlayerStats(playername, playerid) {
         console.log("WAZZUP")
+        this.setState({ plotUpdating: true })
         axios.get('http://localhost:5000/'+playerid+'/gamebygamestats')
             .then((result) =>{
                 console.log(result.data)
-                this.setState({ selectedPlayer: playername, stats: result.data })
+                this.setState({ selectedPlayer: playername, stats: result.data, plotUpdating: false })
             })
             .catch(error => console.log(error))
     }    
@@ -171,7 +173,6 @@ export default class Dash extends React.Component {
         if (this.state.loading) {
             console.log("LOADING")
             var list = <div style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}><div className="lds-dual-ring"></div></div>
-            var plot = <div style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}><div className="lds-dual-ring"></div></div>
         } else if (this.state.players.length == 0) {
             var list = <div style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}><h1 style={{ writingMode: "vertical-rl"}}>Waiting for Selection</h1></div>
         } else {
@@ -179,8 +180,16 @@ export default class Dash extends React.Component {
             <ul className="list-group">
                 {this.state.players.map((player, i) => <li className={(player[3] == this.state.selectedPlayer) ? 'list-group-item active' : 'list-group-item'} onClick={(e)=>this.getPlayerStats(player[3], player[12], e)} key={i}>{player[3]}</li>)}
             </ul>
+        }
+
+        if (this.state.plotUpdating) {
+            var plot = <div style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}><div className="lds-dual-ring"></div></div>
+        } else if (this.state.players.length == 0) {
+            var plot = <div></div>
+        } else {
             var plot = <Plot data={this.state.stats} player={this.state.selectedPlayer} team={this.state.team}/>
         }
+
         return(
             <div className="container-fluid" style={{ height: "100vh"}}>
                 <div className="row" style={{backgroundColor: "#FFFAFA", height: "12%", zIndex: "9999", boxShadow: "1px 1px 1px 4px rgba(0, 0, 0, 0.8)", position: "relative"}}>
@@ -192,7 +201,6 @@ export default class Dash extends React.Component {
                     </div>
                     <div className="col-10" style={{height: "97%", backgroundColor: "white"}}>
                         {plot}
-                        
                     </div>
                 </div>
                 <div className="row" style={{ zIndex: "9999", height: "6%", backgroundColor: "#FFFAFA", boxShadow: "0px 0px 10px rgba(0 , 0 , 0, 0.8)" }}>

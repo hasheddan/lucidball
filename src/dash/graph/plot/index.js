@@ -58,24 +58,49 @@ export default class Plot extends React.Component {
             scaleX = canvas.width / clientRect.width,    // relationship bitmap vs. element for X
             scaleY = canvas.height / clientRect.height;
         // Get Plot bounds
-        var minX = 40, maxX = canvas.width-20, minY = canvas.height-70, maxY = 20
+        var minX = 60, maxX = canvas.width-20, minY = canvas.height-70, maxY = 20
         // draw children “components”
         ctx.lineWidth=2;
         ctx.strokeStyle="rgba(192,192,192,0.7)";
         ctx.lineCap="round";
         const intervals = (canvas.width-40) / this.props.data.length
         console.log("INTERVALS: " + (canvas.width))
-        var interval = intervals + 40
+        var interval = 70
         ctx.fillStyle="blue"
+        // Get max point value
+        var maxPoints = 0
+        
+        for (var i = 0; i < this.props.data.length-1; i++) {
+            this.props.data[i][24] > maxPoints && (maxPoints = this.props.data[i][24])
+        }
         // Array of interval x positions
         var inters = []
-        for (var i = 0; i < this.props.data.length-1; i++) {
+        var prevY = minY
+        var prevX = minX
+        var total = 0
+        var gameCount = 0
+        for (var i = this.props.data.length-1; i >= 0; i--) {
             inters.push(interval)
+            total += this.props.data[i][24]
+            gameCount++
+            console.log("GAME COUNT: "+gameCount)
             line({ctx, startx: interval, starty: 20, endx: interval, endy: canvas.height-70});
-            var pointY = plotY(canvas.height, 30, 0, this.props.data[i][24])
+            var pointY = plotY(canvas.height, maxPoints+5, 0, this.props.data[i][24])
             console.log("Point: " + pointY + ", Points: " + this.props.data[i][24] + ", X: " + interval)
             rect({ctx, x: interval-10, y: pointY-10, width: 20, height: 20})
+            ctx.strokeStyle="black";
+            line({ctx, startx: prevX, starty: prevY, endx: interval, endy: pointY});
             ctx.strokeStyle="rgba(192,192,192,0.7)";
+            // Plot Average
+            ctx.fillStyle="rgba(255,0,0,.4)"
+            var curAvg = total / gameCount
+            console.log("AVERAGE: " + curAvg)
+            var plotAvg = plotY(canvas.height, maxPoints+5, 0, curAvg)
+            rect({ctx, x: interval-10, y: plotAvg-10, width: 20, height: 20})
+            ctx.fillStyle="blue"
+            // Update Pos
+            prevY = pointY
+            prevX = interval
             interval += intervals
         }
         // Draw plot axis
@@ -84,8 +109,9 @@ export default class Plot extends React.Component {
         ctx.fillStyle="black"
         line({ctx, startx: minX, starty: minY, endx: maxX, endy: minY});
         line({ctx, startx: minX, starty: minY, endx: minX, endy: maxY});
+        // line({ctx, startx: minX, starty: minY-50, endx: minX-10, endy: minY-50});
         ctx.font = '30px Inconsolata';
-        ctx.fillText(this.props.player + ' - '+ this.props.team, 40, canvas.height-25)
+        ctx.fillText(this.props.player + ' - '+ this.props.team, 60, canvas.height-25)
 
         // Track mouse
         canvas.onmousemove = (e) => {
@@ -105,6 +131,14 @@ export default class Plot extends React.Component {
                 ctx.strokeStyle="red";
                 line({ctx, startx: xPos, starty: 20, endx: xPos, endy: canvas.height-70});
             }
+        }
+
+        // Save Canvas as Image
+        canvas.onclick = () => {
+            console.log("CLICK")
+            var img = canvas.toDataURL("image/png")
+            console.log(img)
+            window.open(img)
         }
     }
 
