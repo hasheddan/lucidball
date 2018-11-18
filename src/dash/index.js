@@ -185,7 +185,7 @@ export default class Dash extends React.Component {
         if (this.state.plotUpdating) {
             var plot = <div style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}><div className="lds-dual-ring"></div></div>
         } else if (this.state.players.length == 0) {
-            var plot = <div></div>
+            var plot = <div style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: "40px"}}>...</div>
         } else {
             var plot = <Plot data={this.state.stats} player={this.state.selectedPlayer} team={this.state.team}/>
         }
@@ -194,6 +194,7 @@ export default class Dash extends React.Component {
             <div className="container-fluid" style={{ height: "100vh"}}>
                 <div className="row" style={{backgroundColor: "#FFFAFA", height: "12%", zIndex: "9999", boxShadow: "1px 1px 1px 4px rgba(0, 0, 0, 0.8)", position: "relative"}}>
                     <Drop callback={this.changeTeam} />
+                    <label onClick={() => {alert('HELP')}} className="btn" style={{right: "10px", position: "absolute", backgroundColor: "rgba(0,0,0,0)", fontSize: "40px", outline: "0"}}>?</label>
                 </div>
                 <div className="row" style={{ zIndex: "999", height: "82%" }}>
                     <div className="col-2" style={{padding: "0 0 0 0", height: "99%", overflow: "scroll", borderRight: "3px solid black"}}>
@@ -204,8 +205,9 @@ export default class Dash extends React.Component {
                     </div>
                 </div>
                 <div className="row" style={{ zIndex: "9999", height: "6%", backgroundColor: "#FFFAFA", boxShadow: "0px 0px 10px rgba(0 , 0 , 0, 0.8)" }}>
-                    <a className="btn" href="https://twitter.com/share?ref_src=espn.com"><i className="fab fa-twitter"></i></a>
-                    <a className="btn" href="https://twitter.com/share?ref_src=espn.com" style={{color: "black"}}><i className="fab fa-patreon"></i></a>
+                    <a className="btn" href="https://twitter.com/intent/tweet?text=" data-url="https://dev.twitter.com/web/tweet-button"><i className="fab fa-twitter"></i></a>
+                    <a className="btn" href="https://www.paypal.me/lucidball" style={{color: "#003087"}}><i className="fab fa-paypal"></i></a>
+                    <a className="btn" href="https://github.com/HashedDan/lucidball" style={{color: "black"}}><i className="fab fa-github"></i></a>
                     <h3 href="https://twitter.com/lucidball" style={{ position: "absolute", right: "10px", fontFamily: "Permanent Marker", color: "red"}}>LucidBall</h3>
                 </div>
             </div>
