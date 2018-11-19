@@ -130,6 +130,110 @@ const teams = [
     }
 ]
 
+const boxStats = [
+    {
+        "Stat": "Minutes",
+        "Identifier": "Min",
+        "Index": "6",
+    },
+    {
+        "Stat": "Field Goals Made",
+        "Identifier": "FGM",
+        "Index": "7",
+    },
+    {
+        "Stat": "Field Goals Attempted",
+        "Identifier": "FGA",
+        "Index": "8",
+    },
+    {
+        "Stat": "Field Goal Percentage",
+        "Identifier": "FG_PCT",
+        "Index": "9",
+    },
+    {
+        "Stat": "3 Pointers Made",
+        "Identifier": "FG3M",
+        "Index": "10",
+    },
+    {
+        "Stat": "3 Pointers Attempted",
+        "Identifier": "FG3A",
+        "Index": "11",
+    },
+    {
+        "Stat": "3 Point Percentage",
+        "Identifier": "FG3_PCT",
+        "Index": "12",
+    },
+    {
+        "Stat": "Free Throws Made",
+        "Identifier": "FTM",
+        "Index": "13",
+    },
+    {
+        "Stat": "Free Throws Attempted",
+        "Identifier": "FTA",
+        "Index": "14",
+    },
+    {
+        "Stat": "Free Throw Percentage",
+        "Identifier": "FT_PCT",
+        "Index": "15",
+    },
+    {
+        "Stat": "Offensive Rebounds",
+        "Identifier": "OREB",
+        "Index": "16",
+    },
+    {
+        "Stat": "Defensive Rebounds",
+        "Identifier": "DREB",
+        "Index": "17",
+    },
+    {
+        "Stat": "Rebounds",
+        "Identifier": "REB",
+        "Index": "18",
+    },
+    {
+        "Stat": "Assists",
+        "Identifier": "AST",
+        "Index": "19",
+    },
+    {
+        "Stat": "Steals",
+        "Identifier": "STL",
+        "Index": "20",
+    },
+    {
+        "Stat": "Blocks",
+        "Identifier": "BLK",
+        "Index": "21",
+    },
+    {
+        "Stat": "Turnovers",
+        "Identifier": "TOV",
+        "Index": "22",
+    },
+    {
+        "Stat": "Fouls",
+        "Identifier": "PF",
+        "Index": "23",
+    },
+    {
+        "Stat": "Points",
+        "Identifier": "PTS",
+        "Index": "24",
+    },
+    {
+        "Stat": "Plus Minus",
+        "Identifier": "Plus_Minus",
+        "Index": "25",
+    },
+]
+
+
 export default class Dash extends React.Component {
     constructor(props) {
         super(props);
@@ -191,12 +295,15 @@ export default class Dash extends React.Component {
         }
 
         return(
-            <div className="container-fluid" style={{ height: "100vh"}}>
-                <div className="row" style={{backgroundColor: "#FFFAFA", height: "12%", zIndex: "9999", boxShadow: "1px 1px 1px 4px rgba(0, 0, 0, 0.8)", position: "relative"}}>
+            <div className="container-fluid" style={{ height: "100vh" }}>
+                <div className="row" style={{backgroundColor: "#FFFAFA", height: "12%", zIndex: "9999", position: "relative", borderBottom: "1px solid black"}}>
                     <Drop callback={this.changeTeam} />
-                    <label onClick={() => {alert('HELP')}} className="btn" style={{right: "10px", position: "absolute", backgroundColor: "rgba(0,0,0,0)", fontSize: "40px", outline: "0"}}>?</label>
+                    <label onClick={() => {alert('HELP')}} className="btn" style={{right: "10px", position: "absolute", backgroundColor: "rgba(0,0,0,0)", fontSize: "6vh", outline: "0"}}>?</label>
                 </div>
-                <div className="row" style={{ zIndex: "999", height: "82%" }}>
+                <div className="row" style={{backgroundColor: "#FFFAFA", height: "4%", zIndex: "999", boxShadow: "1px 1px 1px 4px rgba(0, 0, 0, 0.8)", whiteSpace: "nowrap", flexWrap: "nowrap", position: "relative",  overflowX: "scroll"}}>
+                    {boxStats.map((stat, i) => <div className="col-xs-4" style={{ paddingLeft: "1vw", paddingRight: "1vw" }} key={i}>{stat.Stat}</div>)}
+                </div>
+                <div className="row" style={{ zIndex: "999", height: "78%" }}>
                     <div className="col-2" style={{padding: "0 0 0 0", height: "99%", overflow: "scroll", borderRight: "3px solid black"}}>
                         {list}
                     </div>
