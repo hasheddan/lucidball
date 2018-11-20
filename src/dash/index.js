@@ -243,7 +243,7 @@ export default class Dash extends React.Component {
             team: '',
             players: [],
             selectedPlayer: '',
-            selectedStat: '',
+            selectedStat: 6,
             stats: [],
             loading: false,
             plotUpdating: false,
@@ -293,27 +293,19 @@ export default class Dash extends React.Component {
         } else if (this.state.players.length == 0) {
             var plot = <div style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: "40px"}}>...</div>
         } else {
-            var plot = <Plot data={this.state.stats} player={this.state.selectedPlayer} team={this.state.team}/>
+            var plot = <Plot data={this.state.stats} player={this.state.selectedPlayer} team={this.state.team} stat={this.state.selectedStat}/>
         }
 
         if (this.state.modalDisp) {
             var modal = <div id="myModal" className="modal" style={{display: "block", zIndex: "99999999"}}>
                 <div className="modal-content">
                     <span className="close" onClick={() => this.setState({ modalDisp: !this.state.modalDisp})}>&times;</span>
-                    <ul class="nav nav-tabs nav-fill">
-                        <li class="nav-item">
-                            <a class="nav-link active" style={{textDecoration: "underline"}}>How To</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" style={{textDecoration: "underline"}}>About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" style={{textDecoration: "underline"}}>Influences</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" style={{textDecoration: "underline"}}>Contribute</a>
-                        </li>
-                    </ul>
+                    <div className="row text-center">
+                        <div className="col-3"><a style={{textDecoration: "underline"}}>How To</a></div>
+                        <div className="col-3"><a style={{textDecoration: "underline"}}>About</a></div>
+                        <div className="col-3"><a style={{textDecoration: "underline"}}>Contribute</a></div>
+                        <div className="col-3"><a style={{textDecoration: "underline"}}>Influences</a></div>
+                    </div>
                 </div>
             </div>
         } else {
@@ -327,7 +319,7 @@ export default class Dash extends React.Component {
                     <label onClick={() => this.setState({ modalDisp: !this.state.modalDisp})} className="btn" style={{right: "10px", position: "absolute", backgroundColor: "rgba(0,0,0,0)", fontSize: "6vh", outline: "0"}}>?</label>
                 </div>
                 <div className="row" style={{backgroundColor: "#FFFAFA", height: "4%", zIndex: "999", boxShadow: "1px 1px 1px 4px rgba(0, 0, 0, 0.8)", whiteSpace: "nowrap", flexWrap: "nowrap", position: "relative",  overflowX: "scroll"}}>
-                    {boxStats.map((stat, i) => <div className="col-xs-4 stat-mi" style={{ paddingLeft: "1vw", paddingRight: "1vw", cursor: "pointer", backgroundColor: (stat.Stat == this.state.selectedStat ? "#DCDCDC" : "") }} key={i} onClick={() => this.setState({selectedStat: boxStats[i].Stat})}>{stat.Stat}</div>)}
+                    {boxStats.map((stat, i) => <div className="col-xs-4 stat-mi" style={{ paddingLeft: "1vw", paddingRight: "1vw", cursor: "pointer", backgroundColor: (stat.Index == this.state.selectedStat ? "#DCDCDC" : "") }} key={i} onClick={() => this.setState({selectedStat: stat.Index})}>{stat.Stat}</div>)}
                 </div>
                 <div className="row" style={{ zIndex: "999", height: "78%" }}>
                     <div className="col-2" style={{padding: "0 0 0 0", height: "99%", overflow: "scroll", borderRight: "3px solid black"}}>
