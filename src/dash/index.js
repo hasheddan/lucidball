@@ -243,9 +243,11 @@ export default class Dash extends React.Component {
             team: '',
             players: [],
             selectedPlayer: '',
+            selectedStat: '',
             stats: [],
             loading: false,
             plotUpdating: false,
+            modalDisp: false
         }
     }
 
@@ -294,14 +296,38 @@ export default class Dash extends React.Component {
             var plot = <Plot data={this.state.stats} player={this.state.selectedPlayer} team={this.state.team}/>
         }
 
+        if (this.state.modalDisp) {
+            var modal = <div id="myModal" className="modal" style={{display: "block", zIndex: "99999999"}}>
+                <div className="modal-content">
+                    <span className="close" onClick={() => this.setState({ modalDisp: !this.state.modalDisp})}>&times;</span>
+                    <ul class="nav nav-tabs nav-fill">
+                        <li class="nav-item">
+                            <a class="nav-link active" style={{textDecoration: "underline"}}>How To</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style={{textDecoration: "underline"}}>About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style={{textDecoration: "underline"}}>Influences</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style={{textDecoration: "underline"}}>Contribute</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        } else {
+            var modal = <div style={{ display: "none"}}></div>
+        }
+
         return(
             <div className="container-fluid" style={{ height: "100vh" }}>
                 <div className="row" style={{backgroundColor: "#FFFAFA", height: "12%", zIndex: "9999", position: "relative", borderBottom: "1px solid black"}}>
                     <Drop callback={this.changeTeam} />
-                    <label onClick={() => {alert('HELP')}} className="btn" style={{right: "10px", position: "absolute", backgroundColor: "rgba(0,0,0,0)", fontSize: "6vh", outline: "0"}}>?</label>
+                    <label onClick={() => this.setState({ modalDisp: !this.state.modalDisp})} className="btn" style={{right: "10px", position: "absolute", backgroundColor: "rgba(0,0,0,0)", fontSize: "6vh", outline: "0"}}>?</label>
                 </div>
                 <div className="row" style={{backgroundColor: "#FFFAFA", height: "4%", zIndex: "999", boxShadow: "1px 1px 1px 4px rgba(0, 0, 0, 0.8)", whiteSpace: "nowrap", flexWrap: "nowrap", position: "relative",  overflowX: "scroll"}}>
-                    {boxStats.map((stat, i) => <div className="col-xs-4" style={{ paddingLeft: "1vw", paddingRight: "1vw" }} key={i}>{stat.Stat}</div>)}
+                    {boxStats.map((stat, i) => <div className="col-xs-4 stat-mi" style={{ paddingLeft: "1vw", paddingRight: "1vw", cursor: "pointer", backgroundColor: (stat.Stat == this.state.selectedStat ? "#DCDCDC" : "") }} key={i} onClick={() => this.setState({selectedStat: boxStats[i].Stat})}>{stat.Stat}</div>)}
                 </div>
                 <div className="row" style={{ zIndex: "999", height: "78%" }}>
                     <div className="col-2" style={{padding: "0 0 0 0", height: "99%", overflow: "scroll", borderRight: "3px solid black"}}>
@@ -317,6 +343,7 @@ export default class Dash extends React.Component {
                     <a className="btn" href="https://github.com/HashedDan/lucidball" style={{color: "black"}}><i className="fab fa-github"></i></a>
                     <h3 href="https://twitter.com/lucidball" style={{ position: "absolute", right: "10px", fontFamily: "Permanent Marker", color: "red"}}>LucidBall</h3>
                 </div>
+                {modal}
             </div>
         );
     }

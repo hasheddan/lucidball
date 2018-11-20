@@ -179,7 +179,7 @@ export default class Plot extends React.Component {
         var maxPoints = 0
         
         for (var i = 0; i < this.props.data.length-1; i++) {
-            this.props.data[i][24] > maxPoints && (maxPoints = this.props.data[i][24])
+            this.props.data[i][6] > maxPoints && (maxPoints = this.props.data[i][6])
         }
         // Array of interval x positions
         var inters = []
@@ -190,12 +190,12 @@ export default class Plot extends React.Component {
         var gameCount = 0
         for (var i = this.props.data.length-1; i >= 0; i--) {
             inters.push(interval)
-            total += this.props.data[i][24]
+            total += this.props.data[i][6]
             gameCount++
             console.log("GAME COUNT: "+gameCount)
             line({ctx, startx: interval, starty: 20, endx: interval, endy: canvas.height-70});
-            var pointY = plotY(canvas.height, maxPoints+10, 0, this.props.data[i][24])
-            console.log("Point: " + pointY + ", Points: " + this.props.data[i][24] + ", X: " + interval)
+            var pointY = plotY(canvas.height, maxPoints+10, 0, this.props.data[i][6])
+            console.log("Point: " + pointY + ", Points: " + this.props.data[i][6] + ", X: " + interval)
             rect({ctx, x: interval-10, y: pointY-10, width: 20, height: 20})
             ctx.strokeStyle="black";
             line({ctx, startx: prevX, starty: prevY, endx: interval, endy: pointY});
@@ -247,7 +247,7 @@ export default class Plot extends React.Component {
                         ctx.fillStyle = "black"
                         ctx.font = '27px Inconsolata'
                         ctx.fillText('Game: ' + this.props.data[this.props.data.length-1-i][4], minX+60, minY-70)
-                        ctx.fillText('Points: ' + this.props.data[this.props.data.length-1-i][24], minX+80, minY-40)
+                        ctx.fillText('Minutes: ' + this.props.data[this.props.data.length-1-i][6], minX+80, minY-40)
                         ctx.fillText('Average: ' + Math.round(avgs[i] * 100) / 100, minX+70, minY-10)
                         hover = true
                     }

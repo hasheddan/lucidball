@@ -159,7 +159,7 @@ export default class Drop extends React.Component {
         }
         return(
             <div onMouseEnter={this.showTeams} onMouseLeave={this.showTeams} style={{ height: "80%", position: "relative", left: "5%", top: "60%", transform: "translateY(-50%)", display: "block", marginRight: "10px"}}>
-                <h1 style={{ borderBottomStyle: "solid", marginBottom: "0", fontSize: "5vh" }}>{this.state.value}</h1>
+                <h1 style={{ borderBottomStyle: "solid", marginBottom: "0", fontSize: "5vh", cursor: "pointer" }}>{this.state.value}</h1>
                 {list}
             </div>
         );
