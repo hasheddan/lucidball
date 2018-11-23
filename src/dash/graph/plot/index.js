@@ -175,12 +175,19 @@ export default class Plot extends React.Component {
         console.log("INTERVALS: " + (canvas.width))
         var interval = 70
         ctx.fillStyle="blue"
-        // Get max point value
+        // Get max & min point value
         var maxPoints = 0
-        
+        var minPoints = 0
         for (var i = 0; i < this.props.data.length-1; i++) {
+            // Get max value
             this.props.data[i][this.props.stat] > maxPoints && (maxPoints = this.props.data[i][this.props.stat])
+            // If min value is less than 0, set to that value
+            if (this.props.data[i][this.props.stat] < 0) {
+                minPoints = this.props.data[i][this.props.stat]
+            }
         }
+        // Scale y axis maximum to be 20% more than max value
+        maxPoints = (.2 * maxPoints) + maxPoints
         // Array of interval x positions
         var inters = []
         var avgs = []
@@ -194,7 +201,7 @@ export default class Plot extends React.Component {
             gameCount++
             console.log("GAME COUNT: "+gameCount)
             line({ctx, startx: interval, starty: 20, endx: interval, endy: canvas.height-70});
-            var pointY = plotY(canvas.height, maxPoints+10, 0, this.props.data[i][this.props.stat])
+            var pointY = plotY(canvas.height, maxPoints, minPoints, this.props.data[i][this.props.stat])
             console.log("Point: " + pointY + ", Points: " + this.props.data[i][this.props.stat] + ", X: " + interval)
             rect({ctx, x: interval-10, y: pointY-10, width: 20, height: 20})
             ctx.strokeStyle="black";
@@ -205,7 +212,7 @@ export default class Plot extends React.Component {
             var curAvg = total / gameCount
             console.log("AVERAGE: " + curAvg)
             avgs.push(curAvg)
-            var plotAvg = plotY(canvas.height, maxPoints+10, 0, curAvg)
+            var plotAvg = plotY(canvas.height, maxPoints, minPoints, curAvg)
             rect({ctx, x: interval-10, y: plotAvg-10, width: 20, height: 20})
             ctx.fillStyle="blue"
             // Update Pos
