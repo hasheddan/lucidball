@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './src-dash/index.js',
     module: {
         rules: [
             {
@@ -19,7 +19,7 @@ module.exports = {
         extensions: ['*', '.js', '.jsx']
     },
     output: {
-        path: __dirname + '/dist',
+        path: __dirname + '/dash',
         publicPath: '/',
         filename: 'bundle.js'
     },
@@ -27,6 +27,6 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
-        contentBase: './dist'
+        contentBase: './dash'
     }
 };
