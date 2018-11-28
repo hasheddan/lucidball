@@ -9,18 +9,67 @@
     <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <style>
-      html, body { font-family: 'Inconsolata'; background-color: #DCDCDC}
+      html, body { margin: 0; height: 100%; overflow: hidden; font-family: 'Inconsolata'; background-color: #D3D3D3}
       #banner {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 100%}
     </style>
   </head>
   <body>
-    <div id="banner">
-            <h1 style="font-size: 8em">Coming Soon</h1>
-            <span style="font-size: 10em; color: red;">
-                <i class="fas fa-basketball-ball"></i>
-            </span>
-            <h3>In the meantime, checkout our <a href="https://conferencewars.lucidball.com" style="color: black; text-decoration: underline">East vs. West Tracker</a>.</h3>
-            <h3>Follow <a href="https://twitter.com/lucidball" style="color: black; text-decoration: underline">@LucidBall</a> for Updates.</h3>
+    <div class="container-fluid" style="height: 100vh; text-align: center">
+        <div class="row" style="height: 15%; z-index: 9999; position: relative;">
+            <div class="col-4">
+                <div id="drop" style="height: 80%; position: relative; top: 60%; transform: translateY(-50%); display: block;">
+                    <h1 style="text-decoration: underline; font-size: 5vh; cursor: pointer">Tools</h1>
+                    <div id="dropList" style="position: absolute; min-width: 100%; max-height: 30vh; overflow: scroll; display: none; z-index: 999999; background-color: white; border: 2px solid black">
+                        <ul class="list-group-flush" style="padding: 0;font-size: 3vh">
+                             <li onclick="window.location.href= 'https://lucidball.com/conferencewars'" class="list-group-item" style="cursor: pointer;">Conference Wars</li>
+                             <li class="list-group-item">Box Score Dashboard (Coming Soon)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div style="height: 80%; position: relative; top: 60%; transform: translateY(-50%); display: block;">
+                    <h1 style="text-decoration: underline; font-size: 5vh; cursor: pointer">About</h1>
+                </div>
+            </div>
+            <div class="col-4">
+                <div style="height: 80%; position: relative; top: 60%; transform: translateY(-50%); display: block;">
+                    <h1 style="text-decoration: underline; font-size: 5vh; cursor: pointer">Support</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="height: 75%; z-index: 999; position: relative;">
+          <div id="banner">
+              <h1 style="font-size: 20vh">LucidBall</h1>
+              <span style="font-size: 20vh; color: red;">
+                  <i class="fas fa-basketball-ball"></i>
+              </span>
+          </div>
+        </div>
+        <div class="row" style="height: 10%; z-index: 9999; position: relative;">
+            <a class="btn" href="https://twitter.com/lucidball" style="font-size: 5vh"><i class="fab fa-twitter"></i></a>
+            <a class="btn" href="https://www.paypal.me/lucidball" style="color: #003087; font-size: 5vh"><i class="fab fa-paypal"></i></a>
+            <a class="btn" href="https://github.com/HashedDan/lucidball" style="color: black; font-size: 5vh"><i class="fab fa-github"></i></a>
+            <a class="btn" href="mailto:lucidballviz@gmail.com" style="color: black; font-size: 5vh"><i class="fas fa-envelope"></i></a>
+        </div>
     </div>
+    <!-- <div style="font-size: 4vh; bottom: 1px; position: absolute">Follow <a href="https://twitter.com/lucidball" style="color: black; text-decoration: underline">@LucidBall</a> for Updates.</div> -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129908527-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-129908527-1');
+    </script>
+    <script>
+      document.getElementById("drop").onmouseover= (e) => {
+        document.getElementById("dropList").style.display = "block"
+      }
+      document.getElementById("drop").onmouseleave= (e) => {
+        document.getElementById("dropList").style.display = "none"
+      }
+    </script>
   </body>
 </html>
