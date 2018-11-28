@@ -14,21 +14,25 @@ function line(props) {
     ctx.stroke();
 }
 
-function plotY(height, max, min, val) {
+function plotY(height, max, min, zero, val) {
+    console.log("MAX: " + max)
+    console.log("MIN: " + min)
+    console.log("MAXMINUSMIN: " + (max - min))
     var per = val / (max-min)
+    console.log("val: " + val)
+    console.log("PER: " + per)
     var spot = height * per
-    return height - spot - 70
+    if (val > 0) {
+        return height - spot - 20 - zero
+    } else if (val < 0) {
+        return height - spot - 20 - zero
+    } else { return zero }
 }
 
 export default class Plot extends React.Component {
     constructor(props) {
         super(props);
         this.updateCanvas = this.updateCanvas.bind(this)
-        this.state = {
-            player: '',
-            number: '',
-            src: '',
-        }
     }
 
     componentDidMount() {
@@ -63,46 +67,46 @@ export default class Plot extends React.Component {
             scaleY = canvas.height / clientRect.height;
         // Get Plot bounds
         var minX = 60, maxX = canvas.width-20, minY = canvas.height-20, maxY = 20
+        var zero = .5*minY
         // draw children “components”
         ctx.lineWidth=2;
         ctx.strokeStyle="rgba(192,192,192,0.7)";
         ctx.lineCap="round";
-        // const intervals = (canvas.width-40) / this.props.data.length
-        // console.log("INTERVALS: " + (canvas.width))
-        // var interval = 70
-        // ctx.fillStyle="blue"
-        // // Get max & min point value
-        // var maxPoints = 0
-        // var minPoints = 0
-        // for (var i = 0; i < this.props.data.length-1; i++) {
-        //     // Get max value
-        //     this.props.data[i][this.props.stat] > maxPoints && (maxPoints = this.props.data[i][this.props.stat])
-        //     // If min value is less than 0, set to that value
-        //     if (this.props.data[i][this.props.stat] < 0) {
-        //         minPoints = this.props.data[i][this.props.stat]
-        //     }
-        // }
-        // // Scale y axis maximum to be 20% more than max value
-        // maxPoints = (.2 * maxPoints) + maxPoints
-        // // Array of interval x positions
-        // var inters = []
-        // var avgs = []
-        // var prevY = minY
-        // var prevX = minX
-        // var total = 0
-        // var gameCount = 0
-        // for (var i = this.props.data.length-1; i >= 0; i--) {
-        //     inters.push(interval)
-        //     total += this.props.data[i][this.props.stat]
-        //     gameCount++
-        //     console.log("GAME COUNT: "+gameCount)
-        //     line({ctx, startx: interval, starty: 20, endx: interval, endy: canvas.height-70});
-        //     var pointY = plotY(canvas.height, maxPoints, minPoints, this.props.data[i][this.props.stat])
-        //     console.log("Point: " + pointY + ", Points: " + this.props.data[i][this.props.stat] + ", X: " + interval)
-        //     rect({ctx, x: interval-10, y: pointY-10, width: 20, height: 20})
-        //     ctx.strokeStyle="black";
-        //     line({ctx, startx: prevX, starty: prevY, endx: interval, endy: pointY});
-        //     ctx.strokeStyle="rgba(192,192,192,0.7)";
+        const intervals = (canvas.width-60) / this.props.data.length
+        console.log("INTERVALS: " + (canvas.width))
+        var interval = 70
+        ctx.fillStyle="#d3d3d3"
+        ctx.font = '200px Inconsolata';
+        ctx.fillText('WEST', (maxX-minX)/2 - 230, 200)
+        ctx.fillText('East', (maxX-minX)/2 - 230, 500)
+        // Get max & min point value
+        var maxPoints = 0
+        var minPoints = 0
+        for (var i = 0; i < this.props.data.length-1; i++) {
+            var diff = parseInt(this.props.data[i].Western) - parseInt(this.props.data[i].Eastern)
+            // Get absolute max value
+            Math.abs(diff) > maxPoints && (maxPoints = diff)
+        }
+        // Set max and min to be same except sign
+        minPoints = -1 * maxPoints
+        // Scale y axis maximum to be 20% more than max diff and 20% less than min diff
+        maxPoints = (.2 * maxPoints) + maxPoints
+        minPoints = (.2 * minPoints) + minPoints
+        // Array of interval x positions
+        var inters = []
+        var prevY = zero
+        var prevX = minX
+        ctx.fillStyle="blue"
+        for (var i = 0; i < this.props.data.length; i++) {
+            inters.push(interval)
+            line({ctx, startx: interval, starty: maxY, endx: interval, endy: minY});
+            var diff = this.props.data[i].Western - this.props.data[i].Eastern
+            var pointY = plotY(canvas.height, maxPoints, minPoints, zero, diff)
+            console.log("Point: " + pointY + ", Points: " + this.props.data[i] + ", X: " + interval)
+            rect({ctx, x: interval-10, y: pointY-10, width: 20, height: 20})
+            ctx.strokeStyle="black";
+            line({ctx, startx: prevX, starty: prevY, endx: interval, endy: pointY});
+            ctx.strokeStyle="rgba(192,192,192,0.7)";
         //     // Plot Average
         //     ctx.fillStyle="rgba(255,0,0,.4)"
         //     var curAvg = total / gameCount
@@ -112,18 +116,19 @@ export default class Plot extends React.Component {
         //     rect({ctx, x: interval-10, y: plotAvg-10, width: 20, height: 20})
         //     ctx.fillStyle="blue"
         //     // Update Pos
-        //     prevY = pointY
-        //     prevX = interval
-        //     interval += intervals
-        // }
+            prevY = pointY
+            prevX = interval
+            interval += intervals
+        }
         // Draw plot axis
         ctx.lineWidth=6;
         ctx.strokeStyle="black";
         ctx.fillStyle="black"
-        line({ctx, startx: minX, starty: .5*minY, endx: maxX, endy: .5*minY});
+        line({ctx, startx: minX, starty: zero, endx: maxX, endy: zero});
         line({ctx, startx: minX, starty: minY, endx: minX, endy: maxY});
         // line({ctx, startx: minX, starty: minY-50, endx: minX-10, endy: minY-50});
-        ctx.font = '30px Inconsolata';
+        // ctx.font = '200px Inconsolata';
+        // ctx.fillText('WEST', (maxX-minX)/2 - 100, 200)
         // ctx.fillText(this.props.player + ' - '+ this.props.team, 60, canvas.height-25)
         // ctx.fillText('LucidBall', canvas.width-200, canvas.height-25)
 
@@ -136,25 +141,25 @@ export default class Plot extends React.Component {
             if ((xPos > minX && xPos < maxX) && (yPos > maxY && yPos < minY)) {
                 // ctx.restore()
                 // ctx.save()
-                console.log("X: " + xPos + ", Y: " + yPos)
+                // console.log("X: " + xPos + ", Y: " + yPos)
                 var hover = false
-                // for (i in inters) {
-                //     if (xPos > inters[i] - 10 && xPos < inters[i] + 10) {
-                //         console.log("~~~~~~~AH~~~~~~~")
-                //         ctx.strokeStyle = "yellow"
-                //         line({ctx, startx: xPos, starty: 20, endx: xPos, endy: canvas.height-70})
-                //         ctx.strokeStyle = "black"
-                //         ctx.fillStyle = "white"
-                //         ctx.fillRect(minX, minY-100, 400, 100)                        
-                //         ctx.strokeRect(minX, minY-100, 400, 100)
-                //         ctx.fillStyle = "black"
-                //         ctx.font = '27px Inconsolata'
-                //         ctx.fillText('Game: ' + this.props.data[this.props.data.length-1-i][4], minX+60, minY-70)
-                //         ctx.fillText((boxStats.find(stat => stat.Index == this.props.stat)).Stat+ ': ' + this.props.data[this.props.data.length-1-i][this.props.stat], minX+80, minY-40)
-                //         ctx.fillText('Average: ' + Math.round(avgs[i] * 100) / 100, minX+70, minY-10)
-                //         hover = true
-                //     }
-                // }
+                for (i in inters) {
+                    if (xPos > inters[i] - 10 && xPos < inters[i] + 10) {
+                        this.props.plotMouse(this.props.data[i].Game_Date, this.props.data[i].Eastern, this.props.data[i].Western)
+                        ctx.strokeStyle = "red"
+                        line({ctx, startx: xPos, starty: maxY, endx: xPos, endy: minY})
+                        // ctx.strokeStyle = "black"
+                        // ctx.fillStyle = "white"
+                        // ctx.fillRect(minX, minY-100, 400, 100)                        
+                        // ctx.strokeRect(minX, minY-100, 400, 100)
+                        // ctx.fillStyle = "black"
+                        // ctx.font = '27px Inconsolata'
+                        // ctx.fillText('Game: ' + this.props.data[this.props.data.length-1-i][4], minX+60, minY-70)
+                        // ctx.fillText((boxStats.find(stat => stat.Index == this.props.stat)).Stat+ ': ' + this.props.data[this.props.data.length-1-i][this.props.stat], minX+80, minY-40)
+                        // ctx.fillText('Average: ' + Math.round(avgs[i] * 100) / 100, minX+70, minY-10)
+                        hover = true
+                    }
+                }
                 if (!hover) {
                     ctx.strokeStyle="red"
                     line({ctx, startx: xPos, starty: 20, endx: xPos, endy: canvas.height-20})
@@ -179,7 +184,6 @@ export default class Plot extends React.Component {
             <div style={{ height: "100%", width: "100%", position: "relative", backgroundColor: "#FFFAFA"}}>
                 <div style={{ height: "90%", width: "95%", borderRadius: "10px", backgroundColor: "#FFFAFA", top: "50%", left: "50%", transform: "translate(-50%, -50%)", position: "absolute", fontFamily: "Allerta Stencil"}}>
                     <canvas ref="canvas" style={{height: "100%", width: "100%"}}/>
-                    <img  src={this.state.src}  style={{ display: "none" }}/>
                 </div>
             </div>
         );

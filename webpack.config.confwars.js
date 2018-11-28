@@ -21,7 +21,7 @@ module.exports = {
     output: {
         path: __dirname + '/confwars',
         publicPath: '/',
-        filename: 'bundle.js'
+        filename: 'confwars-bundle.js'
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin()
