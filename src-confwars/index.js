@@ -31,13 +31,15 @@ class App extends React.Component {
                 })
                 // console.log(games)
                 var recentGame = games[games.length-1]
-                this.setState({ stats: games, date: new Date(recentGame.Game_Date).toLocaleString('en-us', dateOptions), eastWin: recentGame.Eastern, westWin: recentGame.Western})
+                console.log(games)
+                console.log(recentGame)
+                this.setState({ stats: games, date: new Date(recentGame.Game_Date.split("T")[0].replace(/-/gi, "/")).toLocaleString('en-us', dateOptions), eastWin: recentGame.Eastern, westWin: recentGame.Western})
             })
             .catch(error => console.log(error))
     }
 
     plotMouse(date, east, west) {
-        this.setState({ date: new Date(date).toLocaleString('en-us', dateOptions), eastWin: east, westWin: west})
+        this.setState({ date: new Date(date.split("T")[0].replace(/-/gi, "/")).toLocaleString('en-us', dateOptions), eastWin: east, westWin: west})
     }
 
     render() {

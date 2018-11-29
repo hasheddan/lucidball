@@ -77,8 +77,8 @@ export default class Plot extends React.Component {
         var interval = 70
         ctx.fillStyle="#d3d3d3"
         ctx.font = '200px Inconsolata';
-        ctx.fillText('WEST', (maxX-minX)/2 - 230, (maxY/2) +200)
-        ctx.fillText('EAST', (maxX-minX)/2 - 230, (maxY/2) +500)
+        ctx.fillText('WEST', (maxX-minX)/2 - 230, (minY/2) - .5*(minY/3))
+        ctx.fillText('EAST', (maxX-minX)/2 - 230, (minY)-  .5*(minY/3))
         // Get max & min point value
         var maxPoints = 0
         var minPoints = 0
@@ -178,7 +178,7 @@ export default class Plot extends React.Component {
             // console.log(img)
             // window.location.href = img
             var w=window.open('about:blank','LucidBall Graph');
-            w.document.write("<img src='"+canvas.toDataURL("image/png")+"' alt='LucidBallGraph'/>");
+            w.document.write("<img src='"+canvas.toDataURL("image/png")+"' alt='LucidBallGraph' style='max-width: 80vw;'/>");
             // this.setState({ src: img })
         }
     }
