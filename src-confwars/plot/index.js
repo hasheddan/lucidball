@@ -15,12 +15,12 @@ function line(props) {
 }
 
 function plotY(height, max, min, zero, val) {
-    console.log("MAX: " + max)
-    console.log("MIN: " + min)
-    console.log("MAXMINUSMIN: " + (max - min))
+    // console.log("MAX: " + max)
+    // console.log("MIN: " + min)
+    // console.log("MAXMINUSMIN: " + (max - min))
     var per = val / (max-min)
-    console.log("val: " + val)
-    console.log("PER: " + per)
+    // console.log("val: " + val)
+    // console.log("PER: " + per)
     var spot = height * per
     if (val > 0) {
         return height - spot - 20 - zero
@@ -52,8 +52,8 @@ export default class Plot extends React.Component {
         //scale the canvas
         canvas.setAttribute('height', style_height * dpi);
         canvas.setAttribute('width', style_width * dpi);
-        console.log("Height: " + canvas.height)
-        console.log("Width: " + canvas.width)
+        // console.log("Height: " + canvas.height)
+        // console.log("Width: " + canvas.width)
         // Make on half pixels for sharper render
         ctx.translate(0.5,0.5)
         // Clear current canvas
@@ -73,12 +73,12 @@ export default class Plot extends React.Component {
         ctx.strokeStyle="rgba(192,192,192,0.7)";
         ctx.lineCap="round";
         const intervals = (canvas.width-60) / this.props.data.length
-        console.log("INTERVALS: " + (canvas.width))
+        // console.log("INTERVALS: " + (canvas.width))
         var interval = 70
         ctx.fillStyle="#d3d3d3"
         ctx.font = '200px Inconsolata';
-        ctx.fillText('WEST', (maxX-minX)/2 - 230, 200)
-        ctx.fillText('East', (maxX-minX)/2 - 230, 500)
+        ctx.fillText('WEST', (maxX-minX)/2 - 230, (maxY/2) +200)
+        ctx.fillText('EAST', (maxX-minX)/2 - 230, (maxY/2) +500)
         // Get max & min point value
         var maxPoints = 0
         var minPoints = 0
@@ -102,7 +102,7 @@ export default class Plot extends React.Component {
             line({ctx, startx: interval, starty: maxY, endx: interval, endy: minY});
             var diff = this.props.data[i].Western - this.props.data[i].Eastern
             var pointY = plotY(canvas.height, maxPoints, minPoints, zero, diff)
-            console.log("Point: " + pointY + ", Points: " + this.props.data[i] + ", X: " + interval)
+            // console.log("Point: " + pointY + ", Points: " + this.props.data[i] + ", X: " + interval)
             rect({ctx, x: interval-10, y: pointY-10, width: 20, height: 20})
             ctx.strokeStyle="black";
             line({ctx, startx: prevX, starty: prevY, endx: interval, endy: pointY});
@@ -165,6 +165,10 @@ export default class Plot extends React.Component {
                     line({ctx, startx: xPos, starty: 20, endx: xPos, endy: canvas.height-20})
                 }
             }
+        }
+
+        canvas.onmouseleave = () => {
+            this.props.plotMouse(this.props.data[this.props.data.length-1].Game_Date, this.props.data[this.props.data.length-1].Eastern, this.props.data[this.props.data.length-1].Western)
         }
 
         // Save Canvas as Image

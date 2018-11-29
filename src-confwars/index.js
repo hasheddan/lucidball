@@ -27,11 +27,9 @@ class App extends React.Component {
             .then((result) =>{
                 var games = result.data.games
                 games.sort(function(a,b){
-                    // Turn your strings into dates, and then subtract them
-                    // to get a value that is either negative, positive, or zero.
                     return new Date(a.Game_Date) - new Date(b.Game_Date);
                 })
-                console.log(games)
+                // console.log(games)
                 var recentGame = games[games.length-1]
                 this.setState({ stats: games, date: new Date(recentGame.Game_Date).toLocaleString('en-us', dateOptions), eastWin: recentGame.Eastern, westWin: recentGame.Western})
             })
@@ -39,7 +37,6 @@ class App extends React.Component {
     }
 
     plotMouse(date, east, west) {
-        console.log("HERE")
         this.setState({ date: new Date(date).toLocaleString('en-us', dateOptions), eastWin: east, westWin: west})
     }
 
@@ -54,7 +51,7 @@ class App extends React.Component {
                     </div>
                     <div className="col-2" style={{padding: "0 0 0 0", height: "100%", textAlign: "center"}}>
                         <h1 style={{textDecoration: "underline"}}>Date</h1>
-                        <div style={{fontSize: "3vh", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>{this.state.date}</div>
+                        <div style={{fontSize: "4vh", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "100%"}}>{this.state.date}</div>
                     </div>
                     <div className="col-5" style={{padding: "0 0 0 0", height: "100%", borderLeft: "2px solid black", textAlign: "center"}}>
                         <h1 style={{textDecoration: "underline"}}>East</h1>
