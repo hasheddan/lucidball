@@ -66,7 +66,7 @@ export default class Plot extends React.Component {
             scaleX = canvas.width / clientRect.width,    // relationship bitmap vs. element for X
             scaleY = canvas.height / clientRect.height;
         // Get Plot bounds
-        var minX = 60, maxX = canvas.width-20, minY = canvas.height-20, maxY = 20
+        var minX = 20, maxX = canvas.width-20, minY = canvas.height-20, maxY = 20
         var zero = .5*minY
         // draw children “components”
         ctx.lineWidth=2;
@@ -77,8 +77,9 @@ export default class Plot extends React.Component {
         var interval = 70
         ctx.fillStyle="#d3d3d3"
         ctx.font = '200px Inconsolata';
-        ctx.fillText('WEST', (maxX-minX)/2 - 230, (minY/2) - .5*(minY/3))
-        ctx.fillText('EAST', (maxX-minX)/2 - 230, (minY)-  .5*(minY/3))
+        ctx.textAlign="center";
+        ctx.fillText('WEST', (maxX-minX)/2, (minY/2) - .5*(minY/3))
+        ctx.fillText('EAST', (maxX-minX)/2, (minY)-  .5*(minY/3))
         // Get max & min point value
         var maxPoints = 0
         var minPoints = 0

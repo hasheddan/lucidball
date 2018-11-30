@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import axios from 'axios'
+import './Confwars.css'
 
 import Plot from './plot'
 
@@ -15,9 +16,10 @@ class App extends React.Component {
         super(props);
         this.plotMouse= this.plotMouse.bind(this)
         this.state = {
-            eastWin: 43,
-            westWin: 64,
-            date: '',
+            eastWin: '...',
+            westWin: '...',
+            date: '...',
+            loading: true,
             stats: []
         }
     }
@@ -31,9 +33,7 @@ class App extends React.Component {
                 })
                 // console.log(games)
                 var recentGame = games[games.length-1]
-                console.log(games)
-                console.log(recentGame)
-                this.setState({ stats: games, date: new Date(recentGame.Game_Date.split("T")[0].replace(/-/gi, "/")).toLocaleString('en-us', dateOptions), eastWin: recentGame.Eastern, westWin: recentGame.Western})
+                this.setState({ loading: false, stats: games, date: new Date(recentGame.Game_Date.split("T")[0].replace(/-/gi, "/")).toLocaleString('en-us', dateOptions), eastWin: recentGame.Eastern, westWin: recentGame.Western})
             })
             .catch(error => console.log(error))
     }
@@ -43,6 +43,12 @@ class App extends React.Component {
     }
 
     render() {
+
+        if (this.state.loading) {
+            var plot = <div style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}><div className="lds-dual-ring"></div></div>
+        } else {
+            var plot = <Plot plotMouse={this.plotMouse} data={this.state.stats}/>
+        }
         
         return(
             <div className="container-fluid" style={{ height: "100vh" }}>
@@ -61,10 +67,10 @@ class App extends React.Component {
                     </div>
                 </div>
                 <div className="row" style={{backgroundColor: "white", height: "56%", zIndex: "9999", position: "relative"}}>
-                    <Plot plotMouse={this.plotMouse} data={this.state.stats}/>
+                    {plot}
                 </div>
                 <div className="row" style={{backgroundColor: "#FFFAFA", height: "6%", borderTop: "2px solid black", zIndex: "999", position: "relative"}}>
-                    <div style={{ fontSize: "4vh", paddingLeft: "1vw", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>Thank you for supporting our work.</div>
+                    <div style={{ fontSize: "3vmin", paddingLeft: "1vw", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>Thank you for supporting our work.</div>
                     <a className="btn" href="https://twitter.com/intent/tweet?text=" data-url="https://dev.twitter.com/web/tweet-button"><i className="fab fa-twitter"></i></a>
                     <a className="btn" href="https://www.paypal.me/lucidball" style={{color: "#003087"}}><i className="fab fa-paypal"></i></a>
                     <a className="btn" href="https://github.com/HashedDan/lucidball" style={{color: "black"}}><i className="fab fa-github"></i></a>
