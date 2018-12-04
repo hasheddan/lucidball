@@ -254,10 +254,10 @@ export default class Dash extends React.Component {
     changeTeam(i) {
         console.log("HEY")
         this.setState({ loading: true, plotUpdating: true, selectedPlayer: '', stats: [] })
-        axios.get('http://localhost:5000/'+teams[i].Code+'/roster')
+        axios.get('https://9h0e0ghn8c.execute-api.us-east-1.amazonaws.com/prod/rosters/'+teams[i].Code)
             .then((result) =>{
                 console.log(result.data)
-                this.setState({ team: teams[i].Team, players: result.data, loading: false, plotUpdating: false })
+                this.setState({ team: teams[i].Team, players: result.data.roster, loading: false, plotUpdating: false })
             })
             .catch(error => console.log(error))
         // this.setState({team: teams[i]})
@@ -284,7 +284,7 @@ export default class Dash extends React.Component {
         } else {
             var list =
             <ul className="list-group">
-                {this.state.players.map((player, i) => <li className={(player[3] == this.state.selectedPlayer) ? 'list-group-item active' : 'list-group-item'} onClick={(e)=>this.getPlayerStats(player[3], player[12], e)} key={i}>{player[3]}</li>)}
+                {this.state.players.map((player, i) => <li className={(player.Player_Name == this.state.selectedPlayer) ? 'list-group-item active' : 'list-group-item'} onClick={(e)=>this.getPlayerStats(player.Player_Name, player.Player_ID, e)} key={i}>{player.Player_Name}</li>)}
             </ul>
         }
 
@@ -326,7 +326,7 @@ export default class Dash extends React.Component {
                         {list}
                     </div>
                     <div className="col-10" style={{height: "97%", backgroundColor: "white"}}>
-                        {plot}
+                        {/* {plot} */}
                     </div>
                 </div>
                 <div className="row" style={{ zIndex: "9999", height: "6%", backgroundColor: "#FFFAFA", boxShadow: "0px 0px 10px rgba(0 , 0 , 0, 0.8)" }}>
