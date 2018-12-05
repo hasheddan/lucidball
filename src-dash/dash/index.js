@@ -267,7 +267,7 @@ export default class Dash extends React.Component {
     getPlayerStats(playername, playerid) {
         console.log("WAZZUP")
         this.setState({ plotUpdating: true })
-        axios.get('http://localhost:5000/'+playerid+'/gamebygamestats')
+        axios.get('https://9h0e0ghn8c.execute-api.us-east-1.amazonaws.com/prod/boxscores/'+playerid)
             .then((result) =>{
                 console.log(result.data)
                 this.setState({ selectedPlayer: playername, stats: result.data, plotUpdating: false })
