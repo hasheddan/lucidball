@@ -83,7 +83,7 @@ export default class Plot extends React.Component {
         // Get max & min point value
         var maxPoints = 0
         var minPoints = 0
-        for (var i = 0; i < this.props.data.length-1; i++) {
+        for (var i = 0; i < this.props.data.length; i++) {
             var diff = parseInt(this.props.data[i].Western) - parseInt(this.props.data[i].Eastern)
             // Get absolute max value
             Math.abs(diff) > maxPoints && (maxPoints = diff)
