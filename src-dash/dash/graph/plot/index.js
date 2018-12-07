@@ -181,10 +181,10 @@ export default class Plot extends React.Component {
         for (var i = 0; i < this.props.data.length-1; i++) {
             console.log(this.props.data[i])
             // Get max value
-            this.props.data[i][this.props.stat] > maxPoints && (maxPoints = this.props.data[i][this.props.stat])
+            parseInt(this.props.data[i][this.props.stat]) > maxPoints && (maxPoints = parseInt(this.props.data[i][this.props.stat]))
             // If min value is less than 0, set to that value
-            if (this.props.data[i][this.props.stat] < 0) {
-                minPoints = this.props.data[i][this.props.stat]
+            if (parseInt(this.props.data[i][this.props.stat]) < 0) {
+                minPoints = parseInt(this.props.data[i][this.props.stat])
             }
         }
         // Scale y axis maximum to be 20% more than max value
@@ -198,12 +198,14 @@ export default class Plot extends React.Component {
         var gameCount = 0
         for (var i = this.props.data.length-1; i >= 0; i--) {
             inters.push(interval)
-            total += this.props.data[i][this.props.stat]
+            total += parseInt(this.props.data[i][this.props.stat])
             gameCount++
             console.log("GAME COUNT: "+gameCount)
+            console.log("MINUTES: " + parseInt(this.props.data[i][this.props.stat]))
+            console.log("Stat: " + this.props.stat)
             line({ctx, startx: interval, starty: 20, endx: interval, endy: canvas.height-70});
-            var pointY = plotY(canvas.height, maxPoints, minPoints, this.props.data[i][this.props.stat])
-            console.log("Point: " + pointY + ", Points: " + this.props.data[i][this.props.stat] + ", X: " + interval)
+            var pointY = plotY(canvas.height, maxPoints, minPoints, parseInt(this.props.data[i][this.props.stat]))
+            console.log("Point: " + pointY + ", Points: " + parseInt(this.props.data[i][this.props.stat]) + ", X: " + interval)
             rect({ctx, x: interval-10, y: pointY-10, width: 20, height: 20})
             ctx.strokeStyle="black";
             line({ctx, startx: prevX, starty: prevY, endx: interval, endy: pointY});
@@ -254,7 +256,7 @@ export default class Plot extends React.Component {
                         ctx.strokeRect(minX, minY-100, 400, 100)
                         ctx.fillStyle = "black"
                         ctx.font = '27px Inconsolata'
-                        ctx.fillText('Game: ' + this.props.data[this.props.data.length-1-i][4], minX+60, minY-70)
+                        ctx.fillText('Game: ' + this.props.data[this.props.data.length-1-i][7], minX+60, minY-70)
                         ctx.fillText((boxStats.find(stat => stat.Index == this.props.stat)).Stat+ ': ' + this.props.data[this.props.data.length-1-i][this.props.stat], minX+80, minY-40)
                         ctx.fillText('Average: ' + Math.round(avgs[i] * 100) / 100, minX+70, minY-10)
                         hover = true

@@ -243,7 +243,8 @@ export default class Dash extends React.Component {
             team: '',
             players: [],
             selectedPlayer: '',
-            selectedStat: 9,
+            selectedStat: "MIN",
+            selectedStatIndex: 9,
             stats: [],
             loading: false,
             plotUpdating: false,
@@ -319,7 +320,7 @@ export default class Dash extends React.Component {
                     <label onClick={() => this.setState({ modalDisp: !this.state.modalDisp})} className="btn" style={{right: "10px", position: "absolute", backgroundColor: "rgba(0,0,0,0)", fontSize: "6vh", outline: "0"}}>?</label>
                 </div>
                 <div className="row" style={{backgroundColor: "#FFFAFA", height: "4%", zIndex: "999", boxShadow: "1px 1px 1px 4px rgba(0, 0, 0, 0.8)", whiteSpace: "nowrap", flexWrap: "nowrap", position: "relative",  overflowX: "scroll"}}>
-                    {boxStats.map((stat, i) => <div className="col-xs-4 stat-mi" style={{ paddingLeft: "1vw", paddingRight: "1vw", cursor: "pointer", backgroundColor: (stat.Index == this.state.selectedStat ? "#DCDCDC" : "") }} key={i} onClick={() => this.setState({selectedStat: stat.Index})}>{stat.Stat}</div>)}
+                    {boxStats.map((stat, i) => <div className="col-xs-4 stat-mi" style={{ paddingLeft: "1vw", paddingRight: "1vw", cursor: "pointer", backgroundColor: (stat.Index == this.state.selectedStatIndex ? "#DCDCDC" : "") }} key={i} onClick={() => this.setState({selectedStat: stat.Index})}>{stat.Stat}</div>)}
                 </div>
                 <div className="row" style={{ zIndex: "999", height: "78%" }}>
                     <div className="col-2" style={{padding: "0 0 0 0", height: "99%", overflow: "scroll", borderRight: "3px solid black"}}>
