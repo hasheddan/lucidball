@@ -133,103 +133,103 @@ const teams = [
 const boxStats = [
     {
         "Stat": "Minutes",
-        "Identifier": "Min",
-        "Index": "6",
+        "Identifier": "MIN",
+        "Index": "9",
     },
     {
         "Stat": "Field Goals Made",
         "Identifier": "FGM",
-        "Index": "7",
+        "Index": "10",
     },
     {
         "Stat": "Field Goals Attempted",
         "Identifier": "FGA",
-        "Index": "8",
+        "Index": "11",
     },
     {
         "Stat": "Field Goal Percentage",
         "Identifier": "FG_PCT",
-        "Index": "9",
+        "Index": "12",
     },
     {
         "Stat": "3 Pointers Made",
         "Identifier": "FG3M",
-        "Index": "10",
+        "Index": "13",
     },
     {
         "Stat": "3 Pointers Attempted",
         "Identifier": "FG3A",
-        "Index": "11",
+        "Index": "14",
     },
     {
         "Stat": "3 Point Percentage",
         "Identifier": "FG3_PCT",
-        "Index": "12",
+        "Index": "15",
     },
     {
         "Stat": "Free Throws Made",
         "Identifier": "FTM",
-        "Index": "13",
+        "Index": "16",
     },
     {
         "Stat": "Free Throws Attempted",
         "Identifier": "FTA",
-        "Index": "14",
+        "Index": "17",
     },
     {
         "Stat": "Free Throw Percentage",
         "Identifier": "FT_PCT",
-        "Index": "15",
+        "Index": "18",
     },
     {
         "Stat": "Offensive Rebounds",
         "Identifier": "OREB",
-        "Index": "16",
+        "Index": "19",
     },
     {
         "Stat": "Defensive Rebounds",
         "Identifier": "DREB",
-        "Index": "17",
+        "Index": "20",
     },
     {
         "Stat": "Rebounds",
         "Identifier": "REB",
-        "Index": "18",
+        "Index": "21",
     },
     {
         "Stat": "Assists",
         "Identifier": "AST",
-        "Index": "19",
+        "Index": "22",
     },
     {
         "Stat": "Steals",
         "Identifier": "STL",
-        "Index": "20",
+        "Index": "23",
     },
     {
         "Stat": "Blocks",
         "Identifier": "BLK",
-        "Index": "21",
+        "Index": "24",
     },
     {
         "Stat": "Turnovers",
         "Identifier": "TOV",
-        "Index": "22",
+        "Index": "25",
     },
     {
         "Stat": "Fouls",
         "Identifier": "PF",
-        "Index": "23",
+        "Index": "26",
     },
     {
         "Stat": "Points",
         "Identifier": "PTS",
-        "Index": "24",
+        "Index": "27",
     },
     {
         "Stat": "Plus Minus",
         "Identifier": "Plus_Minus",
-        "Index": "25",
+        "Index": "28",
     },
 ]
 
@@ -243,7 +243,7 @@ export default class Dash extends React.Component {
             team: '',
             players: [],
             selectedPlayer: '',
-            selectedStat: 6,
+            selectedStat: 9,
             stats: [],
             loading: false,
             plotUpdating: false,
@@ -270,7 +270,7 @@ export default class Dash extends React.Component {
         axios.get('https://9h0e0ghn8c.execute-api.us-east-1.amazonaws.com/prod/boxscores/'+playerid)
             .then((result) =>{
                 console.log(result.data)
-                this.setState({ selectedPlayer: playername, stats: result.data, plotUpdating: false })
+                this.setState({ selectedPlayer: playername, stats: result.data.games, plotUpdating: false })
             })
             .catch(error => console.log(error))
     }    
@@ -326,7 +326,7 @@ export default class Dash extends React.Component {
                         {list}
                     </div>
                     <div className="col-10" style={{height: "97%", backgroundColor: "white"}}>
-                        {/* {plot} */}
+                        {plot}
                     </div>
                 </div>
                 <div className="row" style={{ zIndex: "9999", height: "6%", backgroundColor: "#FFFAFA", boxShadow: "0px 0px 10px rgba(0 , 0 , 0, 0.8)" }}>

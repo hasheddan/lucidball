@@ -4,103 +4,103 @@ import ReactDOM from 'react-dom'
 const boxStats = [
     {
         "Stat": "Minutes",
-        "Identifier": "Min",
-        "Index": "6",
+        "Identifier": "MIN",
+        "Index": "9",
     },
     {
         "Stat": "Field Goals Made",
         "Identifier": "FGM",
-        "Index": "7",
+        "Index": "10",
     },
     {
         "Stat": "Field Goals Attempted",
         "Identifier": "FGA",
-        "Index": "8",
+        "Index": "11",
     },
     {
         "Stat": "Field Goal Percentage",
         "Identifier": "FG_PCT",
-        "Index": "9",
+        "Index": "12",
     },
     {
         "Stat": "3 Pointers Made",
         "Identifier": "FG3M",
-        "Index": "10",
+        "Index": "13",
     },
     {
         "Stat": "3 Pointers Attempted",
         "Identifier": "FG3A",
-        "Index": "11",
+        "Index": "14",
     },
     {
         "Stat": "3 Point Percentage",
         "Identifier": "FG3_PCT",
-        "Index": "12",
+        "Index": "15",
     },
     {
         "Stat": "Free Throws Made",
         "Identifier": "FTM",
-        "Index": "13",
+        "Index": "16",
     },
     {
         "Stat": "Free Throws Attempted",
         "Identifier": "FTA",
-        "Index": "14",
+        "Index": "17",
     },
     {
         "Stat": "Free Throw Percentage",
         "Identifier": "FT_PCT",
-        "Index": "15",
+        "Index": "18",
     },
     {
         "Stat": "Offensive Rebounds",
         "Identifier": "OREB",
-        "Index": "16",
+        "Index": "19",
     },
     {
         "Stat": "Defensive Rebounds",
         "Identifier": "DREB",
-        "Index": "17",
+        "Index": "20",
     },
     {
         "Stat": "Rebounds",
         "Identifier": "REB",
-        "Index": "18",
+        "Index": "21",
     },
     {
         "Stat": "Assists",
         "Identifier": "AST",
-        "Index": "19",
+        "Index": "22",
     },
     {
         "Stat": "Steals",
         "Identifier": "STL",
-        "Index": "20",
+        "Index": "23",
     },
     {
         "Stat": "Blocks",
         "Identifier": "BLK",
-        "Index": "21",
+        "Index": "24",
     },
     {
         "Stat": "Turnovers",
         "Identifier": "TOV",
-        "Index": "22",
+        "Index": "25",
     },
     {
         "Stat": "Fouls",
         "Identifier": "PF",
-        "Index": "23",
+        "Index": "26",
     },
     {
         "Stat": "Points",
         "Identifier": "PTS",
-        "Index": "24",
+        "Index": "27",
     },
     {
         "Stat": "Plus Minus",
         "Identifier": "Plus_Minus",
-        "Index": "25",
+        "Index": "28",
     },
 ]
 
@@ -179,6 +179,7 @@ export default class Plot extends React.Component {
         var maxPoints = 0
         var minPoints = 0
         for (var i = 0; i < this.props.data.length-1; i++) {
+            console.log(this.props.data[i])
             // Get max value
             this.props.data[i][this.props.stat] > maxPoints && (maxPoints = this.props.data[i][this.props.stat])
             // If min value is less than 0, set to that value
