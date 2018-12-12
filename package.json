@@ -7,7 +7,9 @@
     "startDash": "webpack-dev-server --config ./webpack.config.dash.js --mode development",
     "buildDash": "webpack --config ./webpack.config.dash.js --mode production",
     "startConfWars": "webpack-dev-server --config ./webpack.config.confwars.js --mode development",
-    "buildConfWars": "webpack --config ./webpack.config.confwars.js --mode production"
+    "buildConfWars": "webpack --config ./webpack.config.confwars.js --mode production",
+    "startArtisan": "webpack-dev-server --config ./webpack.config.artisan.js --mode development",
+    "buildArtisan": "webpack --config ./webpack.config.artisan.js --mode production"
   },
   "keywords": [],
   "author": "Daniel Mangum",
@@ -27,6 +29,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "react": "^16.6.1",
-    "react-dom": "^16.6.1"
+    "react-dom": "^16.6.1",
+    "tabletop": "^1.5.2"
   }
 }
