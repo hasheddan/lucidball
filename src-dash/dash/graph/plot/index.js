@@ -110,6 +110,14 @@ function rect(props) {
     ctx.fillRect(x, y, width, height);
 }
 
+function circle(props) {
+    const {ctx, x, y, radius} = props
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, 2*Math.PI, false)
+    ctx.fill()
+    ctx.stroke()
+}
+
 function line(props) {
     const {ctx, startx, starty, endx, endy} = props;
     ctx.beginPath();
@@ -174,7 +182,7 @@ export default class Plot extends React.Component {
         const intervals = (canvas.width-40) / this.props.data.length
         console.log("INTERVALS: " + (canvas.width))
         var interval = 70
-        ctx.fillStyle="blue"
+        ctx.fillStyle="black"
         // Get max & min point value
         var maxPoints = 0
         var minPoints = 0
@@ -206,7 +214,8 @@ export default class Plot extends React.Component {
             line({ctx, startx: interval, starty: 20, endx: interval, endy: canvas.height-70});
             var pointY = plotY(canvas.height, maxPoints, minPoints, parseInt(this.props.data[i][this.props.stat]))
             console.log("Point: " + pointY + ", Points: " + parseInt(this.props.data[i][this.props.stat]) + ", X: " + interval)
-            rect({ctx, x: interval-10, y: pointY-10, width: 20, height: 20})
+            // rect({ctx, x: interval-10, y: pointY-10, width: 20, height: 20})
+            circle({ctx, x: interval, y: pointY, radius: 10})
             ctx.strokeStyle="black";
             line({ctx, startx: prevX, starty: prevY, endx: interval, endy: pointY});
             ctx.strokeStyle="rgba(192,192,192,0.7)";
@@ -217,7 +226,7 @@ export default class Plot extends React.Component {
             avgs.push(curAvg)
             var plotAvg = plotY(canvas.height, maxPoints, minPoints, curAvg)
             rect({ctx, x: interval-10, y: plotAvg-10, width: 20, height: 20})
-            ctx.fillStyle="blue"
+            ctx.fillStyle="black"
             // Update Pos
             prevY = pointY
             prevX = interval
@@ -231,7 +240,7 @@ export default class Plot extends React.Component {
         line({ctx, startx: minX, starty: minY, endx: minX, endy: maxY});
         // line({ctx, startx: minX, starty: minY-50, endx: minX-10, endy: minY-50});
         ctx.font = '30px Inconsolata';
-        ctx.fillText(this.props.player + ' - '+ this.props.team, 60, canvas.height-25)
+        ctx.fillText(this.props.player + ' - '+ this.props.team + ' - ' + boxStats.find(stat => stat.Identifier == this.props.stat).Stat, 60, canvas.height-25)
         ctx.fillText('LucidBall', canvas.width-200, canvas.height-25)
 
         // Track mouse
@@ -256,8 +265,8 @@ export default class Plot extends React.Component {
                         ctx.strokeRect(minX, minY-100, 400, 100)
                         ctx.fillStyle = "black"
                         ctx.font = '27px Inconsolata'
-                        ctx.fillText('Game: ' + this.props.data[this.props.data.length-1-i][7], minX+60, minY-70)
-                        ctx.fillText((boxStats.find(stat => stat.Index == this.props.stat)).Stat+ ': ' + this.props.data[this.props.data.length-1-i][this.props.stat], minX+80, minY-40)
+                        ctx.fillText('Game: ' + this.props.data[this.props.data.length-1-i]["Matchup"], minX+60, minY-70)
+                        ctx.fillText(this.props.stat+ ': ' + this.props.data[this.props.data.length-1-i][this.props.stat], minX+80, minY-40)
                         ctx.fillText('Average: ' + Math.round(avgs[i] * 100) / 100, minX+70, minY-10)
                         hover = true
                     }

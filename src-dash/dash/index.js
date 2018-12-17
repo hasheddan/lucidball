@@ -271,7 +271,11 @@ export default class Dash extends React.Component {
         axios.get('https://9h0e0ghn8c.execute-api.us-east-1.amazonaws.com/prod/boxscores/'+playerid)
             .then((result) =>{
                 console.log(result.data)
-                this.setState({ selectedPlayer: playername, stats: result.data.games, plotUpdating: false })
+                var sorted = result.data.games
+                sorted.sort(function(a,b){
+                    return new Date(b.Game_Date) - new Date(a.Game_Date);
+                })
+                this.setState({ selectedPlayer: playername, stats: sorted, plotUpdating: false })
             })
             .catch(error => console.log(error))
     }    
