@@ -146,11 +146,11 @@ const boxStats = [
         "Identifier": "FGA",
         "Index": "11",
     },
-    {
-        "Stat": "Field Goal Percentage",
-        "Identifier": "FG_PCT",
-        "Index": "12",
-    },
+    // {
+    //     "Stat": "Field Goal Percentage",
+    //     "Identifier": "FG_PCT",
+    //     "Index": "12",
+    // },
     {
         "Stat": "3 Pointers Made",
         "Identifier": "FG3M",
@@ -161,11 +161,11 @@ const boxStats = [
         "Identifier": "FG3A",
         "Index": "14",
     },
-    {
-        "Stat": "3 Point Percentage",
-        "Identifier": "FG3_PCT",
-        "Index": "15",
-    },
+    // {
+    //     "Stat": "3 Point Percentage",
+    //     "Identifier": "FG3_PCT",
+    //     "Index": "15",
+    // },
     {
         "Stat": "Free Throws Made",
         "Identifier": "FTM",
@@ -176,11 +176,11 @@ const boxStats = [
         "Identifier": "FTA",
         "Index": "17",
     },
-    {
-        "Stat": "Free Throw Percentage",
-        "Identifier": "FT_PCT",
-        "Index": "18",
-    },
+    // {
+    //     "Stat": "Free Throw Percentage",
+    //     "Identifier": "FT_PCT",
+    //     "Index": "18",
+    // },
     {
         "Stat": "Offensive Rebounds",
         "Identifier": "OREB",
@@ -226,11 +226,11 @@ const boxStats = [
         "Identifier": "PTS",
         "Index": "27",
     },
-    {
-        "Stat": "Plus Minus",
-        "Identifier": "Plus_Minus",
-        "Index": "28",
-    },
+    // {
+    //     "Stat": "Plus Minus",
+    //     "Identifier": "Plus_Minus",
+    //     "Index": "28",
+    // },
 ]
 
 
