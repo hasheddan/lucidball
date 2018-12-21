@@ -284,8 +284,10 @@ export default class Plot extends React.Component {
             // var img = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream")
             // console.log(img)
             // window.location.href = img
-            var w=window.open('about:blank','LucidBall Graph');
-            w.document.write("<img src='"+canvas.toDataURL("image/png")+"' alt='LucidBallGraph'/>");
+            // var w=window.open('about:blank','LucidBall Graph');
+            // w.document.write("<img src='"+canvas.toDataURL("image/png")+"' alt='LucidBallGraph'/>");
+            console.log(this.props)
+            this.props.showImg(canvas.toDataURL("image/png"))
             // this.setState({ src: img })
         }
     }

@@ -239,6 +239,7 @@ export default class Dash extends React.Component {
         super(props);
         this.changeTeam = this.changeTeam.bind(this)
         this.getPlayerStats = this.getPlayerStats.bind(this)
+        this.showImg = this.showImg.bind(this)
         this.state = {
             team: '',
             players: [],
@@ -248,7 +249,9 @@ export default class Dash extends React.Component {
             stats: [],
             loading: false,
             plotUpdating: false,
-            modalDisp: false
+            modalDisp: false,
+            imgModalDisp: false,
+            canvasUrl: ''
         }
     }
 
@@ -278,7 +281,11 @@ export default class Dash extends React.Component {
                 this.setState({ selectedPlayer: playername, stats: sorted, plotUpdating: false })
             })
             .catch(error => console.log(error))
-    }    
+    }
+    
+    showImg(canvasImgUrl) {
+        this.setState({imgModalDisp: true, canvasUrl: canvasImgUrl})
+    }
 
     render() {
         if (this.state.loading) {
@@ -298,7 +305,7 @@ export default class Dash extends React.Component {
         } else if (this.state.players.length == 0) {
             var plot = <div style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: "40px"}}>...</div>
         } else {
-            var plot = <Plot data={this.state.stats} player={this.state.selectedPlayer} team={this.state.team} stat={this.state.selectedStat}/>
+            var plot = <Plot data={this.state.stats} player={this.state.selectedPlayer} team={this.state.team} stat={this.state.selectedStat} showImg={this.showImg}/>
         }
 
         if (this.state.modalDisp) {
@@ -315,6 +322,17 @@ export default class Dash extends React.Component {
             </div>
         } else {
             var modal = <div style={{ display: "none"}}></div>
+        }
+        if (this.state.imgModalDisp) {
+            var imgModal = <div id="myModal" className="modal" style={{display: "block", zIndex: "99999999"}}>
+                <div className="modal-content">
+                    <span className="close" onClick={() => this.setState({ imgModalDisp: !this.state.imgModalDisp})}>&times;</span>
+                    <h1>Test</h1>
+                    <img src={this.state.canvasUrl} alt='LucidBallGraph' style={{width: "80%"}}/>
+                </div>
+            </div>
+        } else {
+            var imgModal = <div style={{ display: "none"}}></div>
         }
 
         return(
@@ -341,6 +359,7 @@ export default class Dash extends React.Component {
                     <h3 href="https://twitter.com/lucidball" style={{ position: "absolute", right: "10px", fontFamily: "Permanent Marker", color: "red"}}>LucidBall</h3>
                 </div>
                 {modal}
+                {imgModal}
             </div>
         );
     }
