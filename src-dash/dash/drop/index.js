@@ -136,7 +136,7 @@ export default class Drop extends React.Component {
     }
 
     showTeams() {
-        console.log("here")
+        // console.log("here")
         this.setState({ hidden: !this.state.hidden })
     }
 

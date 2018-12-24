@@ -160,8 +160,8 @@ export default class Plot extends React.Component {
         //scale the canvas
         canvas.setAttribute('height', style_height * dpi);
         canvas.setAttribute('width', style_width * dpi);
-        console.log("Height: " + canvas.height)
-        console.log("Width: " + canvas.width)
+        // console.log("Height: " + canvas.height)
+        // console.log("Width: " + canvas.width)
         // Make on half pixels for sharper render
         ctx.translate(0.5,0.5)
         // Clear current canvas
@@ -180,14 +180,14 @@ export default class Plot extends React.Component {
         ctx.strokeStyle="rgba(192,192,192,0.7)";
         ctx.lineCap="round";
         const intervals = (canvas.width-40) / this.props.data.length
-        console.log("INTERVALS: " + (canvas.width))
+        // console.log("INTERVALS: " + (canvas.width))
         var interval = 70
         ctx.fillStyle="black"
         // Get max & min point value
         var maxPoints = 0
         var minPoints = 0
-        for (var i = 0; i < this.props.data.length-1; i++) {
-            console.log(this.props.data[i])
+        for (var i = 0; i < this.props.data.length; i++) {
+            // console.log(this.props.data[i])
             // Get max value
             parseInt(this.props.data[i][this.props.stat]) > maxPoints && (maxPoints = parseInt(this.props.data[i][this.props.stat]))
             // If min value is less than 0, set to that value
@@ -208,12 +208,12 @@ export default class Plot extends React.Component {
             inters.push(interval)
             total += parseInt(this.props.data[i][this.props.stat])
             gameCount++
-            console.log("GAME COUNT: "+gameCount)
-            console.log("MINUTES: " + parseInt(this.props.data[i][this.props.stat]))
-            console.log("Stat: " + this.props.stat)
+            // console.log("GAME COUNT: "+gameCount)
+            // console.log("MINUTES: " + parseInt(this.props.data[i][this.props.stat]))
+            // console.log("Stat: " + this.props.stat)
             line({ctx, startx: interval, starty: 20, endx: interval, endy: canvas.height-70});
             var pointY = plotY(canvas.height, maxPoints, minPoints, parseInt(this.props.data[i][this.props.stat]))
-            console.log("Point: " + pointY + ", Points: " + parseInt(this.props.data[i][this.props.stat]) + ", X: " + interval)
+            // console.log("Point: " + pointY + ", Points: " + parseInt(this.props.data[i][this.props.stat]) + ", X: " + interval)
             // rect({ctx, x: interval-10, y: pointY-10, width: 20, height: 20})
             circle({ctx, x: interval, y: pointY, radius: 10})
             ctx.strokeStyle="black";
@@ -222,7 +222,7 @@ export default class Plot extends React.Component {
             // Plot Average
             ctx.fillStyle="rgba(255,0,0,.4)"
             var curAvg = total / gameCount
-            console.log("AVERAGE: " + curAvg)
+            // console.log("AVERAGE: " + curAvg)
             avgs.push(curAvg)
             var plotAvg = plotY(canvas.height, maxPoints, minPoints, curAvg)
             rect({ctx, x: interval-10, y: plotAvg-10, width: 20, height: 20})
@@ -252,11 +252,11 @@ export default class Plot extends React.Component {
             if ((xPos > minX && xPos < maxX) && (yPos > maxY && yPos < minY)) {
                 // ctx.restore()
                 // ctx.save()
-                console.log("X: " + xPos + ", Y: " + yPos)
+                // console.log("X: " + xPos + ", Y: " + yPos)
                 var hover = false
                 for (i in inters) {
                     if (xPos > inters[i] - 10 && xPos < inters[i] + 10) {
-                        console.log("~~~~~~~AH~~~~~~~")
+                        // console.log("~~~~~~~AH~~~~~~~")
                         ctx.strokeStyle = "yellow"
                         line({ctx, startx: xPos, starty: 20, endx: xPos, endy: canvas.height-70})
                         ctx.strokeStyle = "black"
@@ -286,7 +286,7 @@ export default class Plot extends React.Component {
             // window.location.href = img
             // var w=window.open('about:blank','LucidBall Graph');
             // w.document.write("<img src='"+canvas.toDataURL("image/png")+"' alt='LucidBallGraph'/>");
-            console.log(this.props)
+            // console.log(this.props)
             this.props.showImg(canvas.toDataURL("image/png"))
             // this.setState({ src: img })
         }

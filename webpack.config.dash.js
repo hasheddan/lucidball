@@ -21,7 +21,7 @@ module.exports = {
     output: {
         path: __dirname + '/dash',
         publicPath: '/',
-        filename: 'bundle.js'
+        filename: 'dash-bundle.js'
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin()

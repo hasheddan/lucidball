@@ -256,24 +256,24 @@ export default class Dash extends React.Component {
     }
 
     changeTeam(i) {
-        console.log("HEY")
+        // console.log("HEY")
         this.setState({ loading: true, plotUpdating: true, selectedPlayer: '', stats: [] })
         axios.get('https://9h0e0ghn8c.execute-api.us-east-1.amazonaws.com/prod/rosters/'+teams[i].Code)
             .then((result) =>{
-                console.log(result.data)
+                // console.log(result.data)
                 this.setState({ team: teams[i].Team, players: result.data.roster, loading: false, plotUpdating: false })
             })
             .catch(error => console.log(error))
         // this.setState({team: teams[i]})
-        console.log("NOW HEY")
+        // console.log("NOW HEY")
     }
 
     getPlayerStats(playername, playerid) {
-        console.log("WAZZUP")
+        // console.log("WAZZUP")
         this.setState({ plotUpdating: true })
         axios.get('https://9h0e0ghn8c.execute-api.us-east-1.amazonaws.com/prod/boxscores/'+playerid)
             .then((result) =>{
-                console.log(result.data)
+                // console.log(result.data)
                 var sorted = result.data.games
                 sorted.sort(function(a,b){
                     return new Date(b.Game_Date) - new Date(a.Game_Date);
@@ -289,7 +289,7 @@ export default class Dash extends React.Component {
 
     render() {
         if (this.state.loading) {
-            console.log("LOADING")
+            // console.log("LOADING")
             var list = <div style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}><div className="lds-dual-ring"></div></div>
         } else if (this.state.players.length == 0) {
             var list = <div style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}><h1 style={{ writingMode: "vertical-rl"}}>Waiting for Selection</h1></div>
@@ -310,14 +310,18 @@ export default class Dash extends React.Component {
 
         if (this.state.modalDisp) {
             var modal = <div id="myModal" className="modal" style={{display: "block", zIndex: "99999999"}}>
-                <div className="modal-content">
-                    <span className="close" onClick={() => this.setState({ modalDisp: !this.state.modalDisp})}>&times;</span>
-                    <div className="row text-center">
-                        <div className="col-3"><a style={{textDecoration: "underline"}}>How To</a></div>
-                        <div className="col-3"><a style={{textDecoration: "underline"}}>About</a></div>
-                        <div className="col-3"><a style={{textDecoration: "underline"}}>Contribute</a></div>
-                        <div className="col-3"><a style={{textDecoration: "underline"}}>Influences</a></div>
-                    </div>
+                <div className="modal-content"style={{ marginTop: "5%"}}>
+                    <span className="close" onClick={() => this.setState({ modalDisp: !this.state.modalDisp})}>Close</span>
+                    <h1>Welcome to Box Score Bandit!</h1>
+                    <p>
+                        Box Score Bandit is a tool from LucidBall that is designed to show trends in individual player statistics.
+                        This is the beta version and only includes the most basic box score metrics, but if met with a positive response, more advanced analytics will be added.
+                        To get started, select a team. When presented with the players on the roster, you may choose any of them and the stat you would like to track.
+                        When the chart is generated, move your mouse across the screen to see individual game performances, as well as the rolling average.
+                        If you would like to use the chart, click on it and a download window will appear. Feel free to tweet any chart or use it in your articles.
+                        We greatly appreciate when you attribute your usage to LucidBall as it helps us reach more people.
+                        Lastly, if you have recommendations, please send an email to <a href='mailto:lucidballviz@gmail.com'>lucidballviz@gmail.com</a> or tweet at <a href='https://twitter.com/lucidball'>@LucidBall</a>, and if you would like to donate, click on the <a href='https://www.paypal.me/lucidball'>PayPal link</a> below!
+                    </p>
                 </div>
             </div>
         } else {
@@ -325,10 +329,20 @@ export default class Dash extends React.Component {
         }
         if (this.state.imgModalDisp) {
             var imgModal = <div id="myModal" className="modal" style={{display: "block", zIndex: "99999999"}}>
-                <div className="modal-content">
-                    <span className="close" onClick={() => this.setState({ imgModalDisp: !this.state.imgModalDisp})}>&times;</span>
-                    <h1>Test</h1>
-                    <img src={this.state.canvasUrl} alt='LucidBallGraph' style={{width: "80%"}}/>
+                <div className="modal-content" style={{ marginTop: "5%"}}>
+                    <span className="close" onClick={() => this.setState({ imgModalDisp: !this.state.imgModalDisp})}>Close</span>
+                    <div style={{textAlign: "center"}}><img src={this.state.canvasUrl} alt='LucidBallGraph' style={{width: "80%"}}/></div>
+                    <div style={{ textAlign: "center", display: "inline-block"}}>
+                        <button type="button" className="btn btn-dark" style={{width: "10%", margin: "10px 10px 10px 10px"}} onClick={() => {
+                            var url = this.state.canvasUrl.replace(/^data:image\/[^;]/, 'data:application/octet-stream')
+                            var link = document.createElement("a");
+		                    link.download = this.state.selectedPlayer+'-'+this.state.selectedStat+'.png';
+		                    link.href = url;
+		                    document.body.appendChild(link);
+		                    link.click();
+                        }}>Download</button>
+                        <button type="button" className="btn btn-light" style={{width: "10%", margin: "10px 10px 10px 10px"}} onClick={() => this.setState({ imgModalDisp: !this.state.imgModalDisp})}>Cancel</button>
+                    </div>
                 </div>
             </div>
         } else {
@@ -353,10 +367,10 @@ export default class Dash extends React.Component {
                     </div>
                 </div>
                 <div className="row" style={{ zIndex: "9999", height: "6%", backgroundColor: "#FFFAFA", boxShadow: "0px 0px 10px rgba(0 , 0 , 0, 0.8)" }}>
-                    <a className="btn" href="https://twitter.com/intent/tweet?text=" data-url="https://dev.twitter.com/web/tweet-button"><i className="fab fa-twitter"></i></a>
+                    <a className="btn" href="https://twitter.com/lucidball" data-url="https://dev.twitter.com/web/tweet-button"><i className="fab fa-twitter"></i></a>
                     <a className="btn" href="https://www.paypal.me/lucidball" style={{color: "#003087"}}><i className="fab fa-paypal"></i></a>
                     <a className="btn" href="https://github.com/HashedDan/lucidball" style={{color: "black"}}><i className="fab fa-github"></i></a>
-                    <h3 href="https://twitter.com/lucidball" style={{ position: "absolute", right: "10px", fontFamily: "Permanent Marker", color: "red"}}>LucidBall</h3>
+                    <h3 style={{ position: "absolute", right: "10px", fontFamily: "Permanent Marker", color: "red", fontSize: "4vh", cursor: "pointer"}}><a href="https://lucidball.com" style={{textDecoration: "none", color: "red"}} >LucidBall</a></h3>
                 </div>
                 {modal}
                 {imgModal}
