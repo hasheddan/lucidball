@@ -179,7 +179,7 @@ export default class Plot extends React.Component {
         ctx.lineWidth=2;
         ctx.strokeStyle="rgba(192,192,192,0.7)";
         ctx.lineCap="round";
-        const intervals = (canvas.width-40) / this.props.data.length
+        const intervals = (canvas.width-50) / this.props.data.length
         // console.log("INTERVALS: " + (canvas.width))
         var interval = 70
         ctx.fillStyle="black"
@@ -261,13 +261,14 @@ export default class Plot extends React.Component {
                         line({ctx, startx: xPos, starty: 20, endx: xPos, endy: canvas.height-70})
                         ctx.strokeStyle = "black"
                         ctx.fillStyle = "white"
-                        ctx.fillRect(minX, minY-100, 400, 100)                        
-                        ctx.strokeRect(minX, minY-100, 400, 100)
+                        ctx.fillRect(minX, minY-130, 400, 130)                        
+                        ctx.strokeRect(minX, minY-130, 400, 130)
                         ctx.fillStyle = "black"
                         ctx.font = '27px Inconsolata'
+                        ctx.fillText('Date: ' + this.props.data[this.props.data.length-1-i]["Game_Date"], minX+60, minY-100)
                         ctx.fillText('Game: ' + this.props.data[this.props.data.length-1-i]["Matchup"], minX+60, minY-70)
-                        ctx.fillText(this.props.stat+ ': ' + this.props.data[this.props.data.length-1-i][this.props.stat], minX+80, minY-40)
-                        ctx.fillText('Average: ' + Math.round(avgs[i] * 100) / 100, minX+70, minY-10)
+                        ctx.fillText(this.props.stat+ ': ' + this.props.data[this.props.data.length-1-i][this.props.stat], minX+60, minY-40)
+                        ctx.fillText('Average: ' + Math.round(avgs[i] * 100) / 100, minX+60, minY-10)
                         hover = true
                     }
                 }
